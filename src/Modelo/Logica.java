@@ -409,13 +409,13 @@ public class Logica {
         }
     }
 	
-	public static void registrarResenia(Scanner in) {
+	public void registrarResenia(Scanner in) {
 		String user, pass, comentario, titulo ="";
 		int num, puntaje;
 		System.out.println("Creemos una reseña.");
 		System.out.println("Primero ingresa tu usuario:");
 		user = in.next();
-		System.out.println("Ahora tu contraseña:");D
+		System.out.println("Ahora tu contraseña:");
 		pass = in.next();
 		// Validar usuario
 		System.out.println("Validación exitosa. "+user+", elige una de las siguientes peliculas por su numero.");
@@ -441,7 +441,7 @@ public class Logica {
 		}
 	}
 	
-	public static void aprobarResenia(Scanner in) {
+	public void aprobarResenia(Scanner in) {
 		int num;
 		System.out.println("Reseñas sin aprobar:");
 		// Mostrar reseñas
