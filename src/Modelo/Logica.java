@@ -408,6 +408,54 @@ public class Logica {
             System.out.println("No se encontraron películas para listar.");
         }
     }
-
+	
+	public static void registrarResenia(Scanner in) {
+		String user, pass, comentario, titulo ="";
+		int num, puntaje;
+		System.out.println("Creemos una reseña.");
+		System.out.println("Primero ingresa tu usuario:");
+		user = in.next();
+		System.out.println("Ahora tu contraseña:");D
+		pass = in.next();
+		// Validar usuario
+		System.out.println("Validación exitosa. "+user+", elige una de las siguientes peliculas por su numero.");
+		// Mostrar películas
+		num = in.nextInt();
+		// Recibir película num
+		System.out.println("Ingresa una calificación para la pelicula '"+titulo+"' (1-10):");
+		puntaje = in.nextInt();
+		while (puntaje < 1 || puntaje > 10){
+			System.out.println("Puntaje no valido. Ingresar nuevamente un valor entre 1 y 10");
+			puntaje = in.nextInt();
+		}
+		System.out.println("Ahora ingresar un comentario:");
+		in.nextLine();
+		comentario = in.nextLine();
+		System.out.println("Desea publicar la siguiente reseña?:");
+		System.out.println(titulo);
+		System.out.println(puntaje);
+		System.out.println(comentario);
+		System.out.println("(Ingresar true/false)");
+		if (in.nextBoolean()) {
+			// Guardar en Base de Datos
+		}
+	}
+	
+	public static void aprobarResenia(Scanner in) {
+		int num;
+		System.out.println("Reseñas sin aprobar:");
+		// Mostrar reseñas
+		System.out.println("Ingrese el numero de la reseña a aprobar:");
+		num = in.nextInt();
+		/* while not existe
+			pedir otro num */
+		System.out.println("Desea aprobar la siguiente reseña?:");
+		// Mostrar reseña
+		System.out.println("(Ingresar true/false)");
+		if (in.nextBoolean()) {
+			// Guardar en Base de Datos (aprobadas)
+			// Borrar de Base de Datos (no aprobadas)
+		}
+	}
 }
 
