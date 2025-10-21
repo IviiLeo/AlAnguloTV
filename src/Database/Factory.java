@@ -1,0 +1,96 @@
+package Database;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import Modelo.*;
+
+public class Factory {
+	private DatabaseDAO database;
+	private DatosPersonalesDAO dp;
+	private UsuarioDAO user;
+	private PeliculaDAO pelicula;
+	//private ReseniaDAO resenia;
+	
+	public Factory() {
+		database=new DatabaseDAOjdbl();
+	}
+	
+	public void conectar() throws SQLException {
+		database.iniciar();
+		dp=new DatosPersonalesDAOjdbl(database.getConnection());
+		user=new UsuarioDAOjdbl(database.getConnection());
+		pelicula=new PeliculaDAOjdbl(database.getConnection());
+	}
+	
+	public void desconectar() throws SQLException {
+		database.apagar();
+	}
+	
+	
+	//true si existe
+	public boolean existeNombreUsuario(String u) {
+		if(user.verificarNomUsuario(u)) return true;
+		return false;
+	}
+	
+	
+	//true si existe
+	public boolean existeMail(String m) {
+		if(user.verificarMail(m)) return true;
+		return false;
+	}
+	
+	public void guardarUsuario(Usuario u) throws SQLException {
+		user.cargarUsuario(u);
+	}
+	
+	public void guardarPelicula(Pelicula p) throws SQLException {
+		pelicula.cargarPelicula(p);
+	}
+	
+	public ArrayList<Pelicula> listarPeliculas(int opcion) {
+		ArrayList<Pelicula> listaPeliculas = new ArrayList<>(); 
+
+        switch (opcion) {
+            case 1: 
+                listaPeliculas = pelicula.listarPorNombre(); 
+                break;
+            case 2:
+                listaPeliculas = pelicula.listarPorGenero();
+                break;
+            case 3:
+                listaPeliculas = pelicula.listarPorDuracion();
+                break;
+            case 4:
+                listaPeliculas = pelicula.listarSinOrden();
+                break;
+            default:
+                System.out.println("⚠Opción de ordenación no válida. Se devolverá una lista vacía.");
+        }
+        
+        return listaPeliculas;
+    }
+
+	public boolean validarDNI(int dni) {
+		if (dp.existeDNI()) return true;
+		return false;
+	}
+
+	public void guardarDatosPersonales(DatosPersonales nuevosDatos) {
+		dp.cargarDatos(nuevosDatos);		
+	}
+	
+	
+	public ArrayList<DatosPersonales> listarDatosPersonales() {
+		ArrayList<DatosPersonales> lista=dp.listar();
+		return lista;
+	}
+	
+	//retorna true si existe
+	public boolean existePersona() {
+		if(dp.validarPersona()) return true;
+		return false;
+	}
+}
+	

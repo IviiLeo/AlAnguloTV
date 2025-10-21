@@ -1,0 +1,85 @@
+package Modelo;
+
+public class Usuario {
+
+    private String nombreUsuario;
+    private String contrasenia;
+    private String email;
+    private int idUsuario;        
+    private int idDatosPersonales; 
+    private Pais pais;           
+
+    public Usuario() {
+        this.nombreUsuario = "sin_nombre";
+        this.contrasenia = "sin_clave";
+        this.email = "sin_email";
+        this.idUsuario = 0;
+        this.idDatosPersonales = 0;
+        this.pais = Pais.OTROS;
+    }
+
+    public Usuario(String nombreUsuario, String contrasenia, String email, int idUsuario, int idDatosPersonales, Pais pais) {
+        this.nombreUsuario = nombreUsuario;
+        this.contrasenia = contrasenia;
+        this.email = email;
+        this.idUsuario = idUsuario;
+        this.idDatosPersonales = idDatosPersonales;
+        this.pais = pais;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public int getIdDatosPersonales() {
+        return idDatosPersonales;
+    }
+
+    public Pais getPais() {
+        return pais;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public void setIdDatosPersonales(int idDatosPersonales) {
+        this.idDatosPersonales = idDatosPersonales;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
+    
+    // Opcional: Método toString
+    @Override
+    public String toString() {
+        return "Usuario [ID=" + idUsuario + ", User='" + nombreUsuario + "', Email='" + email + 
+               "', País=" + pais + ", ID_DatosPers=" + idDatosPersonales + "]";
+    }
+}
+
