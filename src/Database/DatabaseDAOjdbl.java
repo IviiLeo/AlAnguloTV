@@ -7,7 +7,7 @@ public class DatabaseDAOjdbl implements DatabaseDAO{
 	
 	@Override
 	public void iniciar() throws SQLException {
-		connection= DriverManager.getConnection("jdbc:sqlite:C:\\Users\\ASUS\\eclipse-workspace\\TDLtp2\\plataforma.db");
+		connection= DriverManager.getConnection("jdbc:sqlite:BaseDatos\\plataforma.db");
 		stmt = connection.createStatement();
 		crearTablas();
 	}
