@@ -15,7 +15,7 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
 	@Override
 	public boolean existeDNI() {
 		//escribir codigo
-		return false;
+		return true;
 	}
 
 	@Override
