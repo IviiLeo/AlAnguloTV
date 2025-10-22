@@ -458,7 +458,7 @@ public class Logica {
 		System.out.println(nuevaResenia.toStringSinID());
 		System.out.println("(Ingresar true/false)");
 		if (in.nextBoolean()) {
-			fabrica.guardarResenia();
+			fabrica.guardarResenia(nuevaResenia);
 		}
 		in.close();
 	}
