@@ -16,7 +16,7 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 			
 	}
 	
-	//retorno los datos completos del usuario
+	//retorno los datos completos del usuario, si el nombre de usuario no existe retorna null;
 	public Usuario buscarPorNombreUsuario(String user) {
 		Usuario u= new Usuario();
 		return u;

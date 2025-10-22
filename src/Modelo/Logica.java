@@ -404,7 +404,8 @@ public class Logica {
         }
     }
 	
-	public void registrarResenia(Scanner in) {
+	public void registrarResenia() {
+		Scanner in = new Scanner(System.in);
 		String user, pass, comentario, titulo ="";
 		int num, puntaje;
 		Usuario u;
@@ -416,18 +417,12 @@ public class Logica {
 			if(u==null) {
 				System.out.println("El nombre de usuario es incorrecto. Ingrese otro usuario");
 			} else {
-				boolean validarContra=false;
-				do {
-					System.out.print("Ingresa la contrasena: ");
-					if(u.getContrasenia().equals(contrasenia)) {
-						System.out.println("Contrasenia correcta, Bienvenido "+user);
-						validacion=true;
-					} else System.out.println("Error: contrasenia incorrecta");	
-				}while (!validarContra);
-				
-			}
-			
-			
+				System.out.print("Ingresa la contrasena: ");
+				if(u.getContrasenia().equals(contrasenia)) {
+					System.out.println("Contrasenia correcta, Bienvenido "+user);
+					validacion=true;
+				} else System.out.println("Error: contrasenia incorrecta");					
+			}			
 		}while(!validacion);
 		System.out.println("Validación exitosa: "+user+", elige una de las siguientes peliculas por su numero.");
 		// Mostrar películas
@@ -450,6 +445,7 @@ public class Logica {
 		if (in.nextBoolean()) {
 			// Guardar en Base de Datos
 		}
+		in.close();
 	}
 	
 	public void aprobarResenia(Scanner in) {

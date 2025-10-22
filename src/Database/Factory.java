@@ -92,5 +92,10 @@ public class Factory {
 		if(dp.validarPersona()) return true;
 		return false;
 	}
+
+	public Usuario buscarUsarioPorNombre(String nombreUsuario) {
+		Usuario u=user.buscarPorNombreUsuario(nombreUsuario);
+		return u;
+	}
 }
 	
