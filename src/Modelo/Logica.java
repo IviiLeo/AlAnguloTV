@@ -417,7 +417,7 @@ public class Logica {
 				System.out.println("El nombre de usuario es incorrecto. Ingrese otro usuario");
 			} else {
 				System.out.print("Ingresa la contrasena: ");
-				if(u.getContrasenia().equals(u))
+				if(u.getContrasenia().equals(contrasenia));
 			}
 			
 			
