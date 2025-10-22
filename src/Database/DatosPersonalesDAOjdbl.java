@@ -33,7 +33,7 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
 	//retorna true si existe la persona ya
 	@Override
 	public boolean validarPersona() {
-		// TODO Auto-generated method stub
+		//escribir codigo
 		return false;
 	}
 
