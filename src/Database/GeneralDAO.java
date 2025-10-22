@@ -1,26 +1,30 @@
 package Database;
 
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import Modelo.*;
 
-public class Factory {
+public class GeneralDAO {
 	private DatabaseDAO database;
 	private DatosPersonalesDAO dp;
 	private UsuarioDAO user;
 	private PeliculaDAO pelicula;
+	private ReseniaDAO resenia;
 	//private ReseniaDAO resenia;
 	
-	public Factory() {
+	public GeneralDAO() {
 		database=new DatabaseDAOjdbl();
 	}
 	
 	public void conectar() throws SQLException {
 		database.iniciar();
-		dp=new DatosPersonalesDAOjdbl(database.getConnection());
-		user=new UsuarioDAOjdbl(database.getConnection());
-		pelicula=new PeliculaDAOjdbl(database.getConnection());
+		Connection conn=database.getConnection();
+		dp=new DatosPersonalesDAOjdbl(conn);
+		user=new UsuarioDAOjdbl(conn);
+		pelicula=new PeliculaDAOjdbl(conn);
+		resenia=new ReseniaDAOjdbl(conn);
 	}
 	
 	public void desconectar() throws SQLException {
@@ -96,6 +100,17 @@ public class Factory {
 	public Usuario buscarUsarioPorNombre(String nombreUsuario) {
 		Usuario u=user.buscarPorNombreUsuario(nombreUsuario);
 		return u;
+	}
+	
+	//devuleva si una pelicula existe, pasandole un ID como parametro
+	public boolean existePelicula(int ID) {
+		return (pelicula.validarPelicula(ID));
+	}
+
+	public void guardarResenia(Resenia r) {
+		r.setFechaHora(LocalDateTime.now());
+		resenia.cargarResenia(r);
+		
 	}
 }
 	

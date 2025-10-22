@@ -16,4 +16,6 @@ public interface PeliculaDAO {
 
 	public ArrayList<Pelicula> listarSinOrden();
 
+	public boolean validarPelicula(int iD);
+
 }

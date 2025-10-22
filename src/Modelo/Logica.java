@@ -7,9 +7,9 @@ import java.util.Scanner;
 import Database.*;
 
 public class Logica {
-	private Factory fabrica;
+	private GeneralDAO fabrica;
 	public Logica() {
-		fabrica=new Factory();
+		fabrica=new GeneralDAO();
 	}
 	
 	public void conectar() throws SQLException {
@@ -26,7 +26,7 @@ public class Logica {
         boolean datosCompletos = false;
             
         while (!datosCompletos) {
-                System.out.println("\n--- INGRESO DE DATOS PERSONALES ---");
+                System.out.println("\nINGRESO DE DATOS PERSONALES");
                 
                 String nombre;
                 boolean nombreValido;
@@ -104,7 +104,7 @@ public class Logica {
             if (confirmacion.equals("S")) {
                 fabrica.guardarDatosPersonales(nuevosDatos);
             } else {
-                System.out.println("🛑 Guardado cancelado. Los datos no se almacenaron.");
+                System.out.println("Guardado cancelado. Los datos no se almacenaron.");
             }
 
     }
@@ -116,7 +116,7 @@ public class Logica {
         Usuario nuevoUsuario = new Usuario(); 
         boolean datosGuardados = false;
 
-        System.out.println("\n--- REGISTRO DE NUEVO USUARIO ---");
+        System.out.println("\nREGISTRO DE NUEVO USUARIO");
 
         do {
             
@@ -408,42 +408,57 @@ public class Logica {
 		Scanner in = new Scanner(System.in);
 		String user, pass, comentario, titulo ="";
 		int num, puntaje;
+		Resenia nuevaResenia=new Resenia();
 		Usuario u;
 		boolean validacion=false;
 		do {
 			System.out.print("Ingresa el nombre de usuario: ");
 			user = in.next();
-			u=fabrica.buscarUsarioPorNombre();
+			u=fabrica.buscarUsarioPorNombre(user);
 			if(u==null) {
-				System.out.println("El nombre de usuario es incorrecto. Ingrese otro usuario");
+				System.out.println("El nombre de usuario es incorrecto.\n");
 			} else {
 				System.out.print("Ingresa la contrasena: ");
+				String contrasenia=in.nextLine().trim();
 				if(u.getContrasenia().equals(contrasenia)) {
-					System.out.println("Contrasenia correcta, Bienvenido "+user);
+					System.out.println("Contrasena correcta, Bienvenido "+user);
 					validacion=true;
-				} else System.out.println("Error: contrasenia incorrecta");					
+				} else System.out.println("Error: contrasena incorrecta");					
 			}			
 		}while(!validacion);
-		System.out.println("Validación exitosa: "+user+", elige una de las siguientes peliculas por su numero.");
-		// Mostrar películas
-		num = in.nextInt();
+		System.out.println("Validación exitosa: "+user);
+		nuevaResenia.setIdUsuario(u.getIdUsuario());
+		
+		System.out.println("A continuacion se mostrara un listado de peliculas disponibles:\n");
+		ArrayList<Pelicula> listaPeliculas=fabrica.listarPeliculas(4);
+		for (Pelicula p:listaPeliculas) {
+			System.out.print(p.toString() + "\n");
+		}
+		validacion=false;
+		do {
+			System.out.print("Ingrese el ID de la pelicula a la que quiere agregarle una resenia: ");
+			num = in.nextInt();
+			if(fabrica.existePelicula(num)) validacion=true;
+		}while (!validacion);
+		nuevaResenia.setIdPelicula(num);
+		
 		// Recibir película num
-		System.out.println("Ingresa una calificación para la pelicula '"+titulo+"' (1-10):");
+		System.out.println("\nIngresa una calificación para la pelicula (1..10):");
 		puntaje = in.nextInt();
 		while (puntaje < 1 || puntaje > 10){
 			System.out.println("Puntaje no valido. Ingresar nuevamente un valor entre 1 y 10");
 			puntaje = in.nextInt();
 		}
+		nuevaResenia.setCalificacion(puntaje);
 		System.out.println("Ahora ingresar un comentario:");
-		in.nextLine();
 		comentario = in.nextLine();
+		nuevaResenia.setComentario(comentario);
+		
 		System.out.println("Desea publicar la siguiente reseña?:");
-		System.out.println(titulo);
-		System.out.println(puntaje);
-		System.out.println(comentario);
+		System.out.println(nuevaResenia.toStringSinID());
 		System.out.println("(Ingresar true/false)");
 		if (in.nextBoolean()) {
-			// Guardar en Base de Datos
+			fabrica.guardarResenia();
 		}
 		in.close();
 	}

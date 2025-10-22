@@ -25,6 +25,9 @@ public class PeliculaDAOjdbl implements PeliculaDAO {
         stmt.close();		
 	}
 	
+	//todos los listar deben devolver la tabla completa(ordenada) con id, nombre, etc. 
+	//para ordenar usa el comparator, anda a chequear que carajo es eso (lo pidieron en calse)
+	
 	@Override
 	public ArrayList<Pelicula> listarPorNombre() {
 		// TODO Auto-generated method stub
@@ -44,6 +47,12 @@ public class PeliculaDAOjdbl implements PeliculaDAO {
 	public ArrayList<Pelicula> listarSinOrden() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	//devuleva si una pelicula existe, pasandole un ID como parametro. si existe retorna true, si no false
+	@Override
+	public boolean validarPelicula(int iD) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
