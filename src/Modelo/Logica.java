@@ -109,11 +109,6 @@ public class Logica {
 
     }
 	
-	/*public void registrarUsuario() throws SQLException {
-		  
-
-	}*/
-	
 	public void registrarUsuario() throws SQLException {
         
 		@SuppressWarnings("resource")
@@ -412,13 +407,22 @@ public class Logica {
 	public void registrarResenia(Scanner in) {
 		String user, pass, comentario, titulo ="";
 		int num, puntaje;
-		System.out.println("Creemos una reseña.");
-		System.out.println("Primero ingresa tu usuario:");
-		user = in.next();
-		System.out.println("Ahora tu contraseña:");
-		pass = in.next();
-		// Validar usuario
-		System.out.println("Validación exitosa. "+user+", elige una de las siguientes peliculas por su numero.");
+		Usuario u;
+		boolean validacion=false;
+		do {
+			System.out.print("Ingresa el nombre de usuario: ");
+			user = in.next();
+			u=fabrica.buscarUsarioPorNombre();
+			if(u==null) {
+				System.out.println("El nombre de usuario es incorrecto. Ingrese otro usuario");
+			} else {
+				System.out.print("Ingresa la contrasena: ");
+				if(u.getContrasenia().equals(u))
+			}
+			
+			
+		}while(!validacion);
+		System.out.println("Validación exitosa: "+user+", elige una de las siguientes peliculas por su numero.");
 		// Mostrar películas
 		num = in.nextInt();
 		// Recibir película num

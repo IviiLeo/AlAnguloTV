@@ -14,19 +14,19 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
 
 	@Override
 	public boolean existeDNI() {
-		// TODO Auto-generated method stub
+		//escribir codigo
 		return false;
 	}
 
 	@Override
 	public void cargarDatos(DatosPersonales nuevosDatos) {
-		// TODO Auto-generated method stub
+		//escribir codigo
 		
 	}
 
 	@Override
 	public ArrayList<DatosPersonales> listar() {
-		// TODO Auto-generated method stub
+		//escribir codigo
 		return null;
 	}
 	
