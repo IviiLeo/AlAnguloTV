@@ -17,6 +17,7 @@ public interface ReseniaDAO {
 	public boolean validarResenia(int ID);
 		
 	public void eliminarResenia(Resenia r);
-
+	
+	public void aprobarResenia(int ID);
 
 }

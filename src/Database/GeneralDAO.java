@@ -125,14 +125,30 @@ public class GeneralDAO {
 		return (resenia.descargarResenia(ID));
 	}
 	
-	public void guardarReseniaAprobada(Resenia r) {
-		r.setAprobado(true);
-		resenia.cargarResenia(r);
+	public void actualizarReseniaAprobada(int ID) {
+		resenia.aprobarResenia(ID);
 	}
+
 	
 	public void borrarResenia(Resenia r) {
 		resenia.eliminarResenia(r);
 	}
+	
+	public ArrayList<Usuario> listarUsuarios(int opcion){
+		ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+		switch (opcion) {
+			case 1:
+				// nombre de usuario
+				break;
+			case 2:
+				// email
+				break;
+			default:
+				System.out.println("Opción de ordenación no válida.");
+		}
+		return listaUsuarios;
+	}
+
 
 }
 	

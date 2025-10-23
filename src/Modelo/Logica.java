@@ -493,13 +493,42 @@ public class Logica {
 		System.out.println("(Ingresar true/false)");
 		if (in.nextBoolean()) {
 			// Guardar en Base de Datos (aprobada)
-			fabrica.guardarReseniaAprobada(r);
+			fabrica.actualizarReseniaAprobada(num);
 			System.out.println("La resenia fue aprobada con exito.");
 		} else { // Borrar de Base de Datos (desaprobada)
 			fabrica.borrarResenia(r);
 			System.out.println("La resenia fue desaprobada con exito.");
 		}
 		in.close();
+	}
+
+	
+	public void listarUsuarios() {
+		Scanner scanner = new Scanner(System.in);
+		ArrayList<Usuario> listaUsuarios = null;
+		// Se solicita un criterio de ordenación de usuarios
+		int opcion ;
+		System.out.println("\n--- LISTAR USUARIOS ---");
+        System.out.println("Seleccione el criterio de ordenación:");
+        System.out.println("1. Por nombre de usuario");
+        System.out.println("2. Por email asociado");
+        System.out.println("Ingrese su opcion (1-2): ");
+        opcion = scanner.nextInt();
+        while (opcion != 1 && opcion !=2) {
+        	System.out.println("Error: criterio de ordenacion invalido");
+        	opcion = scanner.nextInt();
+        }
+        // Se consigue la lista de usuarios segun el orden elegido y se muestra en pantalla
+        listaUsuarios=fabrica.listarUsuarios(opcion);
+        scanner.close();
+        if (listaUsuarios != null && !listaUsuarios.isEmpty()) {
+            System.out.println("\n LISTADO DE USUARIOS:");
+            for (Usuario u : listaUsuarios) {
+                System.out.println(u.toString()); 
+                // Faltaria imprimir los datos personales
+            }
+        } else
+            System.out.println("No se encontraron usuarios para listar.");
 	}
 }
 
