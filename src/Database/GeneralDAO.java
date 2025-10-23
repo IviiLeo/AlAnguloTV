@@ -33,14 +33,14 @@ public class GeneralDAO {
 	
 	
 	//true si existe
-	public boolean existeNombreUsuario(String u) {
+	public boolean existeNombreUsuario(String u) throws SQLException {
 		if(user.verificarNomUsuario(u)) return true;
 		return false;
 	}
 	
 	
 	//true si existe
-	public boolean existeMail(String m) {
+	public boolean existeMail(String m) throws SQLException {
 		if(user.verificarMail(m)) return true;
 		return false;
 	}
