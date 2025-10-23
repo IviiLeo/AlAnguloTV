@@ -17,11 +17,13 @@ public class DatabaseDAOjdbl implements DatabaseDAO{
 
             // Ruta relativa al archivo
             connection= DriverManager.getConnection("jdbc:sqlite:BaseDatos\\plataforma.db");
+            stmt = connection.createStatement();
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error al conectar a la base de datos.");
         }
-		stmt = connection.createStatement();
+
 		crearTablas();
 	}
 	
