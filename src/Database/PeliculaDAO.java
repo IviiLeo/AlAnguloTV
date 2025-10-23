@@ -8,14 +8,8 @@ import Modelo.Pelicula;
 public interface PeliculaDAO {
 	public void cargarPelicula(Pelicula p) throws SQLException;
 
-	public ArrayList<Pelicula> listarPorNombre();
+	public ArrayList<Pelicula> listarPeliculas() throws SQLException;
 
-	public ArrayList<Pelicula> listarPorGenero();
-
-	public ArrayList<Pelicula> listarPorDuracion();
-
-	public ArrayList<Pelicula> listarSinOrden();
-
-	public boolean validarPelicula(int iD);
+	public boolean validarPelicula(int id) throws SQLException;
 
 }

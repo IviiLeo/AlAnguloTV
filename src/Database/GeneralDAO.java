@@ -58,20 +58,19 @@ public class GeneralDAO {
 
         switch (opcion) {
             case 1: 
-                listaPeliculas = pelicula.listarPorNombre(); 
+                //nombre
                 break;
             case 2:
-                listaPeliculas = pelicula.listarPorGenero();
+                //genero
                 break;
             case 3:
-                listaPeliculas = pelicula.listarPorDuracion();
+                //duracion
                 break;
             case 4:
-            	//sin orden es ordenado por id
-                listaPeliculas = pelicula.listarSinOrden();
+            	//sin orden:ordenado por id
                 break;
             default:
-                System.out.println("Opción de ordenación no válida. Se devolverá una lista vacía.");
+                System.out.println("Opción de ordenación no válida.");
         }
         
         return listaPeliculas;
@@ -98,13 +97,13 @@ public class GeneralDAO {
 		return false;
 	}
 
-	public Usuario buscarUsuarioPorNombre(String nombreUsuario) {
+	public Usuario buscarUsuarioPorNombre(String nombreUsuario) throws SQLException {
 		Usuario u=user.buscarPorNombreUsuario(nombreUsuario);
 		return u;
 	}
 	
 	//devuleva si una pelicula existe, pasandole un ID como parametro
-	public boolean existePelicula(int ID) {
+	public boolean existePelicula(int ID) throws SQLException {
 		return (pelicula.validarPelicula(ID));
 	}
 

@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import Modelo.Pelicula;
+import Modelo.GeneroPelicula;
 
 public class PeliculaDAOjdbl implements PeliculaDAO {
 	private Connection connection;
@@ -29,31 +30,42 @@ public class PeliculaDAOjdbl implements PeliculaDAO {
 	//para ordenar usa el comparator, anda a chequear que carajo es eso (lo pidieron en calse)
 	
 	@Override
-	public ArrayList<Pelicula> listarPorNombre() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Pelicula> listarPeliculas() throws SQLException {
+		Statement stmt = connection.createStatement();
+		ArrayList<Pelicula> listaPeliculas= new ArrayList<Pelicula>();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM PELICULA");
+
+		while (rs.next()) {
+		    int id = rs.getInt("ID");
+		    String g = rs.getString("GENERO");
+		    String titulo = rs.getString("TITULO");
+		    String resumen = rs.getString("RESUMEN");
+		    String director = rs.getString("DIRECTOR");
+		    double duracion = rs.getInt("DURACION");
+		    
+		    GeneroPelicula genero = GeneroPelicula.valueOf(g);
+		    Pelicula datos = new Pelicula(id, genero, titulo, resumen, director, duracion);
+		    
+		    listaPeliculas.add(datos);
+		}
+		return listaPeliculas;
 	}
-	@Override
-	public ArrayList<Pelicula> listarPorGenero() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public ArrayList<Pelicula> listarPorDuracion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	//sin orden me refiero a ordenado por id
-	@Override
-	public ArrayList<Pelicula> listarSinOrden() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	//devuleva si una pelicula existe, pasandole un ID como parametro. si existe retorna true, si no false
 	@Override
-	public boolean validarPelicula(int iD) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean validarPelicula(int id) throws SQLException{
+			String sql= "SELECT COUNT(*) FROM PELICULAS WHERE ID=?;";
+			PreparedStatement pstmt;
+	    	pstmt = connection.prepareStatement(sql);
+	    	boolean existe=false;  
+	  		pstmt.setInt(1,id);
+	        ResultSet rs=pstmt.executeQuery();
+	        int cant=rs.getInt(1);
+	        rs.close();
+	        if(cant>0) existe=true;
+	        pstmt.close();
+			return existe;
 	}
 
 }
+
