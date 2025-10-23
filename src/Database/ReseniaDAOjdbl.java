@@ -42,5 +42,12 @@ public class ReseniaDAOjdbl implements ReseniaDAO {
 	public void eliminarResenia(Resenia r) {
 		// TODO Auto-generated method stub
 	}
+	
+	//recibi un id, busca la resenia en la base de datos y cambia el aprobado a true
+	
+	@Override
+	public void aprobarResenia(int ID) {
+		// TODO Auto-generated method stub
+	}
 
 }
