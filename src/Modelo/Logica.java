@@ -403,7 +403,7 @@ public class Logica {
         }
     }
 	
-	public void registrarResenia() {
+	public void registrarResenia() throws SQLException {
 		Scanner in = new Scanner(System.in);
 		String user, comentario;
 		int num, puntaje;

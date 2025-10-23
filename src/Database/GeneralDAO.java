@@ -38,7 +38,6 @@ public class GeneralDAO {
 		return false;
 	}
 	
-	
 	//true si existe
 	public boolean existeMail(String m) throws SQLException {
 		if(user.verificarMail(m)) return true;
