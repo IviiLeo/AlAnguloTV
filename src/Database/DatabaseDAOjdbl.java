@@ -1,4 +1,5 @@
 package Database;
+import java.io.File;
 import java.sql.*;
 
 public class DatabaseDAOjdbl implements DatabaseDAO{
@@ -7,7 +8,19 @@ public class DatabaseDAOjdbl implements DatabaseDAO{
 	
 	@Override
 	public void iniciar() throws SQLException {
-		connection= DriverManager.getConnection("jdbc:sqlite:BaseDatos\\plataforma.db");
+		try {
+            // Carpeta dentro del proyecto
+            File folder = new File("BaseDatos");
+            if (!folder.exists()) {
+                folder.mkdirs(); // crea la carpeta si no existe
+            }
+
+            // Ruta relativa al archivo
+            connection= DriverManager.getConnection("jdbc:sqlite:BaseDatos\\plataforma.db");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 		stmt = connection.createStatement();
 		crearTablas();
 	}
