@@ -67,10 +67,11 @@ public class GeneralDAO {
                 listaPeliculas = pelicula.listarPorDuracion();
                 break;
             case 4:
+            	//sin orden es ordenado por id
                 listaPeliculas = pelicula.listarSinOrden();
                 break;
             default:
-                System.out.println("⚠Opción de ordenación no válida. Se devolverá una lista vacía.");
+                System.out.println("Opción de ordenación no válida. Se devolverá una lista vacía.");
         }
         
         return listaPeliculas;
@@ -92,12 +93,12 @@ public class GeneralDAO {
 	}
 	
 	//retorna true si existe
-	public boolean existePersona() {
-		if(dp.validarPersona()) return true;
+	public boolean existePersona(int idPersona) {
+		if(dp.validarPersona(idPersona)) return true;
 		return false;
 	}
 
-	public Usuario buscarUsarioPorNombre(String nombreUsuario) {
+	public Usuario buscarUsuarioPorNombre(String nombreUsuario) {
 		Usuario u=user.buscarPorNombreUsuario(nombreUsuario);
 		return u;
 	}
@@ -112,5 +113,28 @@ public class GeneralDAO {
 		resenia.cargarResenia(r);
 		
 	}
+	
+	public ArrayList<Resenia> listarReseniasNoAprobadas() {
+		ArrayList<Resenia> lista=resenia.listarNoAprobadas();
+		return lista;
+	}
+	
+	public boolean existeResenia(int ID) {
+		return (resenia.validarResenia(ID));
+	}
+	
+	public Resenia descargarResenia(int ID) {
+		return (resenia.descargarResenia(ID));
+	}
+	
+	public void guardarReseniaAprobada(Resenia r) {
+		r.setAprobado(true);
+		resenia.cargarResenia(r);
+	}
+	
+	public void borrarResenia(Resenia r) {
+		resenia.eliminarResenia(r);
+	}
+
 }
 	

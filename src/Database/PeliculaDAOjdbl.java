@@ -43,6 +43,7 @@ public class PeliculaDAOjdbl implements PeliculaDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	//sin orden me refiero a ordenado por id
 	@Override
 	public ArrayList<Pelicula> listarSinOrden() {
 		// TODO Auto-generated method stub

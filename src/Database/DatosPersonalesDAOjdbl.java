@@ -12,27 +12,30 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
 		conn=connection;
 	}
 
+	//retorna true si ya existe el dni
 	@Override
 	public boolean existeDNI() {
 		//escribir codigo
 		return true;
 	}
-
+	
+	//carga datos personales
 	@Override
 	public void cargarDatos(DatosPersonales nuevosDatos) {
 		//escribir codigo
 		
 	}
-
+	
+	//ordenado por id
 	@Override
 	public ArrayList<DatosPersonales> listar() {
 		//escribir codigo
 		return null;
 	}
 	
-	//retorna true si existe la persona ya
+	//retorna true si existe la persona, busca en base al id
 	@Override
-	public boolean validarPersona() {
+	public boolean validarPersona(int ID) {
 		//escribir codigo
 		return false;
 	}

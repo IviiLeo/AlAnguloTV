@@ -12,6 +12,6 @@ public interface DatosPersonalesDAO {
 
 	ArrayList<DatosPersonales> listar();
 
-	boolean validarPersona();
+	boolean validarPersona(int idPersona);
 
 }
