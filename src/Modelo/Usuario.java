@@ -6,8 +6,7 @@ public class Usuario {
     private String contrasenia;
     private String email;
     private int idUsuario;        
-    private int idDatosPersonales; 
-    private Pais pais;           
+    private int idDatosPersonales;         
 
     public Usuario() {
         this.nombreUsuario = "sin_nombre";
@@ -15,16 +14,14 @@ public class Usuario {
         this.email = "sin_email";
         this.idUsuario = 0;
         this.idDatosPersonales = 0;
-        this.pais = Pais.OTROS;
     }
 
-    public Usuario(String nombreUsuario, String contrasenia, String email, int idUsuario, int idDatosPersonales, Pais pais) {
+    public Usuario(String nombreUsuario, String contrasenia, String email, int idUsuario, int idDatosPersonales) {
         this.nombreUsuario = nombreUsuario;
         this.contrasenia = contrasenia;
         this.email = email;
         this.idUsuario = idUsuario;
         this.idDatosPersonales = idDatosPersonales;
-        this.pais = pais;
     }
 
     public String getNombreUsuario() {
@@ -47,10 +44,6 @@ public class Usuario {
         return idDatosPersonales;
     }
 
-    public Pais getPais() {
-        return pais;
-    }
-
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
@@ -70,16 +63,11 @@ public class Usuario {
     public void setIdDatosPersonales(int idDatosPersonales) {
         this.idDatosPersonales = idDatosPersonales;
     }
-
-    public void setPais(Pais pais) {
-        this.pais = pais;
-    }
     
     // Opcional: Método toString
     @Override
     public String toString() {
-        return "Usuario [ID=" + idUsuario + ", User='" + nombreUsuario + "', Email='" + email + 
-               "', País=" + pais + ", ID_DatosPers=" + idDatosPersonales + "]";
+        return "Usuario [ID=" + idUsuario + ", User='" + nombreUsuario + "', Email='" + email + ", ID_DatosPers=" + idDatosPersonales + "]";
     }
 }
 

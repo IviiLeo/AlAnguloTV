@@ -200,35 +200,7 @@ public class Logica {
                     emailValido = true;
                 }
             } while (!emailValido);
-            nuevoUsuario.setEmail(email);
-
-            // D. País (Ingreso por índice numérico y Obligatorio)
-            Pais pais = null;
-            boolean paisValido = false;
-            Pais[] paises = Pais.values();
-            
-            while (!paisValido) {
-                System.out.println("\nPaíses disponibles (Ingrese el número):");
-                for (int i = 0; i < paises.length; i++) {
-                    System.out.println("  " + (i + 1) + ". " + paises[i]);
-                }
-                System.out.print("Ingrese el número del País: ");
-                String inputNumero = scanner.nextLine().trim();
-                
-                try {
-                    int indiceSeleccionado = Integer.parseInt(inputNumero);
-                    
-                    if (indiceSeleccionado >= 1 && indiceSeleccionado <= paises.length) {
-                        pais = paises[indiceSeleccionado - 1]; 
-                        paisValido = true;
-                    } else {
-                        System.out.println("❌ Error: Número de país fuera del rango válido.");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("❌ Error: Por favor, ingrese un número válido para el país.");
-                }
-            }
-            nuevoUsuario.setPais(pais);
+            nuevoUsuario.setEmail(email); 
             
             // 2. MUESTRA Y CONFIRMACIÓN
             System.out.println("\n-------------------------------------");

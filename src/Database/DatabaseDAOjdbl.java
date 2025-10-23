@@ -50,16 +50,15 @@ public class DatabaseDAOjdbl implements DatabaseDAO{
         stmt.executeUpdate(sqlPelicula);
 
         String sqlUsuario =
-                " CREATE TABLE IF NOT EXISTS USUARIO (" +
-                "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "NOMBRE_USUARIO TEXT NOT NULL," +
-                "CONTRASENIA TEXT NOT NULL," +
-                "EMAIL TEXT NOT NULL, " +
-                "ID_DATOS_PERSONALES INTEGER NOT NULL," +
-                "CONSTRAINT USUARIO_DATOS_PERSONALES_FK FOREIGN KEY (ID_DATOS_PERSONALES) REFERENCES DATOS_PERSONALES(ID)" +
-                "PAIS TEXT(1) NOT NULL," +
-                " );";
-            stmt.executeUpdate(sqlUsuario);
+        	    " CREATE TABLE IF NOT EXISTS USUARIO (" +
+        	    "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+        	    "NOMBRE_USUARIO TEXT NOT NULL," +
+        	    "CONTRASENIA TEXT NOT NULL," +
+        	    "EMAIL TEXT NOT NULL, " +
+        	    "ID_DATOS_PERSONALES INTEGER NOT NULL," +
+        	    "CONSTRAINT USUARIO_DATOS_PERSONALES_FK FOREIGN KEY (ID_DATOS_PERSONALES) REFERENCES DATOS_PERSONALES(ID)" +
+        	    " );";
+        	stmt.executeUpdate(sqlUsuario);
 
         String sqlResenia =
             " CREATE TABLE IF NOT EXISTS RESENIA (" +
@@ -75,10 +74,10 @@ public class DatabaseDAOjdbl implements DatabaseDAO{
             " );";
         stmt.executeUpdate(sqlResenia);
 
-        stmt.close();
 	}
 	
 	public void apagar() throws SQLException {
+		stmt.close();
 		connection.close();
 	}
 	
