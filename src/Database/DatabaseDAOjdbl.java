@@ -2,6 +2,9 @@ package Database;
 import java.io.File;
 import java.sql.*;
 
+import java.io.File;
+import java.sql.*;
+
 public class DatabaseDAOjdbl implements DatabaseDAO{
 	private static Connection connection;
 	private static Statement stmt;
@@ -50,15 +53,15 @@ public class DatabaseDAOjdbl implements DatabaseDAO{
         stmt.executeUpdate(sqlPelicula);
 
         String sqlUsuario =
-        	    " CREATE TABLE IF NOT EXISTS USUARIO (" +
-        	    "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-        	    "NOMBRE_USUARIO TEXT NOT NULL," +
-        	    "CONTRASENIA TEXT NOT NULL," +
-        	    "EMAIL TEXT NOT NULL, " +
-        	    "ID_DATOS_PERSONALES INTEGER NOT NULL," +
-        	    "CONSTRAINT USUARIO_DATOS_PERSONALES_FK FOREIGN KEY (ID_DATOS_PERSONALES) REFERENCES DATOS_PERSONALES(ID)" +
-        	    " );";
-        	stmt.executeUpdate(sqlUsuario);
+            " CREATE TABLE IF NOT EXISTS USUARIO (" +
+            "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "NOMBRE_USUARIO TEXT NOT NULL," +
+            "CONTRASENIA TEXT NOT NULL," +
+            "EMAIL TEXT NOT NULL, " +
+            "ID_DATOS_PERSONALES INTEGER NOT NULL," +
+            "CONSTRAINT USUARIO_DATOS_PERSONALES_FK FOREIGN KEY (ID_DATOS_PERSONALES) REFERENCES DATOS_PERSONALES(ID)" +
+            " );";
+        stmt.executeUpdate(sqlUsuario);
 
         String sqlResenia =
             " CREATE TABLE IF NOT EXISTS RESENIA (" +
@@ -74,22 +77,14 @@ public class DatabaseDAOjdbl implements DatabaseDAO{
             " );";
         stmt.executeUpdate(sqlResenia);
 
+        stmt.close();
 	}
 	
 	public void apagar() throws SQLException {
-		stmt.close();
 		connection.close();
 	}
 	
 	public Connection getConnection() {
 		return connection;
 	}
-	
-/*	public void agregarUsuario(String nombre, String apellido, String pais, String correo, Fecha fechaNacimiento, String idioma, String user, String contrasena) {
-		String sql=" INSERT INTO USUARIO (NOMBRES, APELLIDO, PAIS, EMAIL, FECHANACIMIENTO, IDIOMA, NOMBRE_USUARIO, CONTRASENIA)" +
-	    		   "VALUES ('" + nombre + "', '" + apellido + "', '" + pais + "', '" + correo + "', '"+ fechaNacimiento.toString() + "', '" + idioma + "', '" + user + "', '" + contrasena + "');";
-	     stmt.executeUpdate(sql);
-		 stmt.close();
-	}*/
-
 }

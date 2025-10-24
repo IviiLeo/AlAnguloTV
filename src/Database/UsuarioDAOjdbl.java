@@ -16,12 +16,11 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 	public void cargarUsuario(Usuario u) throws SQLException {
 			Statement stmt = connection.createStatement();
 
-	        String sql = "INSERT INTO USUARIO (NOMBRE_USUARIO, EMAIL, CONTRASENIA, ID_DATOS_PERSONALES, PAIS)" +
+	        String sql = "INSERT INTO USUARIO (NOMBRE_USUARIO, EMAIL, CONTRASENIA, ID_DATOS_PERSONALES)" +
 	                     "VALUES ('" + u.getNombreUsuario() + "', " +
 	                             "'" + u.getContrasenia() + "', " + 
 	                             "'" + u.getEmail() + "', " + 
-	                             "'" + u.getIdDatosPersonales() + "', " + 
-	                                   u.getPais().toString() +
+	                                   u.getIdDatosPersonales() +  
 	                             ");";
 	        
 	        stmt.executeUpdate(sql);
@@ -41,9 +40,7 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 		      String contrasenia = rs.getString("CONTRASENIA");
 		      String email = rs.getString("EMAIL");
 		      int id_datos = rs.getInt("ID_DATOS_PERSONALES");
-		      String p = rs.getString("PAIS");
-		    
-		    Pais pais = Pais.valueOf(p);
+		      
 		    usuario = new Usuario(nombreUsuario,contrasenia, email, id, id_datos);
 			}
 		}
@@ -83,7 +80,7 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 	public ArrayList<Usuario> listarUsuarios() throws SQLException {
 		Statement stmt = connection.createStatement();
 		ArrayList<Usuario> listaUsuarios= new ArrayList<Usuario>();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO INNER JOIN DATOS_PERSONALES WHERE ID_DATOSPERSONALES=ID");
 		    
 		while (rs.next()) {
 			int id= rs.getInt("ID");
@@ -91,10 +88,12 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 			String contrasenia = rs.getString("CONTRASENIA");
 		    String email = rs.getString("EMAIL");
 		    int id_datos = rs.getInt("ID_DATOS_PERSONALES");
-		    String p = rs.getString("PAIS");
-		      
-		    Pais pais = Pais.valueOf(p);
-		    Usuario datos = new Usuario(nombreUsuario,contrasenia, email, id, id_datos);
+		    String nombre=rs.getString("DATOS_PERSONALES.NOMBRES");
+			String apellido = rs.getString("DATOS_PERSONALES.APELLIDO");
+			int dni = rs.getInt("DATOS_PERSONALES.DNI");
+			
+			DatosPersonales persona=new DatosPersonales(id_datos,nombre, apellido, dni);
+		    Usuario datos = new Usuario(nombreUsuario,contrasenia, email, id, persona);
 		    
 		    listaUsuarios.add(datos);
 		}
@@ -102,4 +101,5 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 	}
 	
 }
+
 
