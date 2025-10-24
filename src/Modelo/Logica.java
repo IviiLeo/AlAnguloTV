@@ -110,52 +110,34 @@ public class Logica {
     }
 	
 	public void registrarUsuario() throws SQLException {
-        
-		@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(System.in);       
-        Usuario nuevoUsuario = new Usuario(); 
-        boolean datosGuardados = false;
+		ArrayList<DatosPersonales> listaDatosPersonales = fabrica.listarDatosPersonales();
+		if (listaDatosPersonales == null || listaDatosPersonales.isEmpty()) {
+			System.out.print("La lista de datos personales se encuentra vacia");
+		} else {
+			@SuppressWarnings("resource")
+			Scanner scanner = new Scanner(System.in);       
+	        Usuario nuevoUsuario = new Usuario(); 
 
-        System.out.println("\nREGISTRO DE NUEVO USUARIO");
+	        System.out.println("\nREGISTRO DE NUEVO USUARIO");       
+	        boolean idValido = false;
 
-        do {
-            
-            ArrayList<DatosPersonales> listaDatosPersonales = fabrica.listarDatosPersonales();
-            int idSeleccionado = 0;
-            boolean idValido = false;
-
-            while (!idValido) {
+	        while (!idValido) {
                 System.out.println("\nDATOS PERSONALES EXISTENTES");
                 System.out.println("ID\t| Nombre\t| Apellido\t| DNI\n");
                  
                 // Imprimir lista
                 for (DatosPersonales dp : listaDatosPersonales) {
-                    System.out.printf("%d\t| %s\t| %s\t| %d\n"+
-                                      dp.getId()+" | "+ dp.getNombre()+" | "+ dp.getApellido()+" | "+ dp.getDni());
+                    System.out.printf(dp.getId()+" | "+ dp.getNombre()+" | "+ dp.getApellido()+" | "+ dp.getDni());
                 }
 
-                System.out.print("Seleccione el ID Personal a asociar: ");
-                int idPersona=scanner.nextInt();
-
-                try {
-                                       
-                    if (fabrica.existePersona(idPersona)) {
-                        nuevoUsuario.setIdDatosPersonales(idSeleccionado);
-                        idValido = true;
-                        System.out.println("ID " + idSeleccionado + " asociado correctamente.");
-                    } else {
-                        System.out.println("Error: ID no encontrado en la lista. Intente de nuevo.");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Error: Por favor, ingrese un número entero válido.");
-                } catch (Exception e) {
-                     System.out.println("Error: No se pudo cargar la lista de datos personales.");
-                     return;
-                }
-            }
-            
-            // -------------------------------------------------------------------
-            // --- CONTINUACIÓN DEL INGRESO DE DATOS DE USUARIO ---
+                int idPersona;
+                do {
+                	System.out.print("Seleccione el ID Personal a asociar: ");
+	                idPersona=scanner.nextInt();
+                } while (!fabrica.existePersona(idPersona));
+            }    
+	            
+	      //Ingreso de datos de usuario
             
             // A. Nombre de Usuario (Obligatorio)
             String nombreUsuario;
@@ -174,12 +156,12 @@ public class Logica {
                 System.out.print("Ingrese Contraseña: ");
                 contrasenia = scanner.nextLine().trim();
                 if (contrasenia.isEmpty()) {
-                    System.out.println("❌ Error: La contraseña es obligatoria.");
+                    System.out.println("Error: La contraseña es obligatoria.");
                 }
             } while (contrasenia.isEmpty());
-            nuevoUsuario.setContrasenia(contrasenia);
-            
-            // C. Email (Validación de Formato y Unicidad)
+            nuevoUsuario.setContrasenia(contrasenia);    
+	            
+         // C. Email (Validación de Formato y Unicidad)
             String email;
             boolean emailValido = false;
             do {
@@ -213,13 +195,11 @@ public class Logica {
 
             if (confirmacion.equals("S")) {
                 fabrica.guardarUsuario(nuevoUsuario);
-                datosGuardados = true; 
+                System.out.print("Datos guardados con exito.");
             } else {
-                System.out.println("Datos no confirmados. Debe reingresar todos los datos.");
-            }
-            
-        } while (!datosGuardados); 
-
+                System.out.println("Datos no guardados.");
+            }    	
+		}		 
 }
 	
 	public void registrarPelicula() throws SQLException {
@@ -368,7 +348,7 @@ public class Logica {
             System.out.println("\n LISTADO DE PELÍCULAS:");
             for (Pelicula p : listaPeliculas) {
                 // Asumimos que la clase Pelicula tiene un método toString() informativo
-                System.out.println(p); 
+                System.out.println(p.toString()); 
             }
         } else {
             System.out.println("No se encontraron películas para listar.");
@@ -376,65 +356,74 @@ public class Logica {
     }
 	
 	public void registrarResenia() throws SQLException {
-		Scanner in = new Scanner(System.in);
-		String user, comentario;
-		int num, puntaje;
-		Resenia nuevaResenia=new Resenia();
-		Usuario u;		
-		boolean validacion=false;
-		// Se valida el usuario
-		do {
-			System.out.print("Ingresa el nombre de usuario: ");
-			user = in.next();
-			u=fabrica.buscarUsuarioPorNombre(user);
-			if(u==null) {
-				System.out.println("El nombre de usuario es incorrecto.\n");
-			} else {
-				System.out.print("Ingresa la contrasena: ");
-				String contrasenia=in.nextLine().trim();
-				if(u.getContrasenia().equals(contrasenia)) {
+		ArrayList<Pelicula> listaPeliculas=fabrica.listarPeliculas(4);	
+		if (listaPeliculas.isEmpty() || listaPeliculas==null)  {
+			System.out.print("La lista de peliculas disponibles se encuentra vacia.");
+		}
+		ArrayList<Usuario> listaUsuarios=fabrica.listarUsuarios(1);
+		if (listaUsuarios.isEmpty() || listaUsuarios == null) {
+			System.out.print("La lista de usuarios se encuentra vacia.");
+		} else {
+			Scanner in = new Scanner(System.in);
+			String user, comentario;
+			int num, puntaje;
+			Resenia nuevaResenia=new Resenia();
+			Usuario u;		
+			boolean validacion=false;
+			// Se valida el usuario
+			do {
+				System.out.print("Ingresa el nombre de usuario: ");
+				user = in.next();
+				u=fabrica.buscarUsuarioPorNombre(user);
+				if(u==null) {
+					System.out.println("El nombre de usuario es incorrecto.\n");
+				} else {
+					System.out.print("Ingresa la contrasena: ");
+					String contrasenia=in.nextLine().trim();
+					if(u.getContrasenia().equals(contrasenia)) {
+						validacion=true;
+					} else System.out.println("Error: contrasena incorrecta");					
+				}			
+			}while(!validacion);
+			System.out.println("Validación exitosa, bienvenido "+user);
+			nuevaResenia.setIdUsuario(u.getIdUsuario());
+			// Se muestran las peliculas disponibles, variable inicializada al principio
+			System.out.println("A continuacion se mostrara un listado de peliculas disponibles:\n");
+			
+			for (Pelicula p:listaPeliculas) {
+				System.out.print(p.getId() + " - "+ p.getTitulo()+"\n");
+			}
+			// Se selecciona una pelicula disponible
+			validacion=false;
+			do {
+				System.out.print("Ingrese el ID de la pelicula a la que quiere agregarle una resenia: ");
+				num = in.nextInt();
+				if(fabrica.existePelicula(num)) {
 					validacion=true;
-				} else System.out.println("Error: contrasena incorrecta");					
-			}			
-		}while(!validacion);
-		System.out.println("Validación exitosa, bienvenido "+user);
-		nuevaResenia.setIdUsuario(u.getIdUsuario());
-		// Se muestran las peliculas disponibles
-		System.out.println("A continuacion se mostrara un listado de peliculas disponibles:\n");
-		ArrayList<Pelicula> listaPeliculas=fabrica.listarPeliculas(4);
-		for (Pelicula p:listaPeliculas) {
-			System.out.print(p.getId() + " - "+ p.getTitulo()+"\n");
-		}
-		// Se selecciona una pelicula disponible
-		validacion=false;
-		do {
-			System.out.print("Ingrese el ID de la pelicula a la que quiere agregarle una resenia: ");
-			num = in.nextInt();
-			if(fabrica.existePelicula(num)) {
-				validacion=true;
-			} else System.out.println("Error. Película no disponible.");
-		}while (!validacion);
-		nuevaResenia.setIdPelicula(num);
-		// Se ingresa calificacion de la reseña
-		System.out.println("\nIngresa una calificación para la pelicula (1..10):");
-		puntaje = in.nextInt();
-		while (puntaje < 1 || puntaje > 10){
-			System.out.println("Puntaje no valido. Ingresar nuevamente un valor entre 1 y 10");
+				} else System.out.println("Error. Película no disponible.");
+			}while (!validacion);
+			nuevaResenia.setIdPelicula(num);
+			// Se ingresa calificacion de la reseña
+			System.out.println("\nIngresa una calificación para la pelicula (1..10):");
 			puntaje = in.nextInt();
-		}
-		nuevaResenia.setCalificacion(puntaje);
-		// Se ingresa comentario de la reseña
-		System.out.println("Ahora ingresar un comentario:");
-		comentario = in.nextLine();
-		nuevaResenia.setComentario(comentario);
-		// Se muestra la reseña final y se solicita confirmacion
-		System.out.println("Desea publicar la siguiente reseña?:");
-		System.out.println(nuevaResenia.toStringSinID());
-		System.out.println("(Ingresar true/false)");
-		if (in.nextBoolean()) {
-			fabrica.guardarResenia(nuevaResenia);
-		}
-		in.close();
+			while (puntaje < 1 || puntaje > 10){
+				System.out.println("Puntaje no valido. Ingresar nuevamente un valor entre 1 y 10");
+				puntaje = in.nextInt();
+			}
+			nuevaResenia.setCalificacion(puntaje);
+			// Se ingresa comentario de la reseña
+			System.out.println("Ahora ingresar un comentario:");
+			comentario = in.nextLine();
+			nuevaResenia.setComentario(comentario);
+			// Se muestra la reseña final y se solicita confirmacion
+			System.out.println("Desea publicar la siguiente reseña?:");
+			System.out.println(nuevaResenia.toStringSinID());
+			System.out.println("(Ingresar true/false)");
+			if (in.nextBoolean()) {
+				fabrica.guardarResenia(nuevaResenia);
+			}
+			in.close();
+		}	
 	}
 	
 	public void aprobarResenia() throws SQLException {
@@ -446,34 +435,37 @@ public class Logica {
 		ArrayList<Resenia> listaResenias=fabrica.listarReseniasNoAprobadas();
 		System.out.println("Las siguientes resenias aguardan aprobacion");
 		System.out.println("Formato ID resenia - ID pelicula - ID usuario");
-		for (Resenia r:listaResenias) {
-			System.out.println(r.getId() + " - "+ r.getIdPelicula() + " - "+ r.getIdUsuario() + "\n");
-		}
-		// Se solicita la reseña a aprobar y se verifica su existencia
-		validacion=false;
-		do {
-			System.out.println("Ingrese el numero de la resenia a aprobar:");
-			num = in.nextInt();
-			if (fabrica.existeResenia(num))
-				validacion=true;	
-			else System.out.println("Error. ID de resenia incorrecto.");
-		} while(!validacion);
-		// Se muestra la reseña y se solicita aprobacion o desaprobacion
-		Resenia r = fabrica.descargarResenia(num);
-		System.out.println("Desea aprobar la siguiente reseña?:");
-		System.out.println(r.toString());
-		System.out.println("(Ingresar true/false)");
-		if (in.nextBoolean()) {
-			// Guardar en Base de Datos (aprobada)
-			fabrica.actualizarReseniaAprobada(num);
-			System.out.println("La resenia fue aprobada con exito.");
-		} else { // Borrar de Base de Datos (desaprobada)
-			fabrica.borrarResenia(r);
-			System.out.println("La resenia fue desaprobada con exito.");
-		}
-		in.close();
+		if (listaResenias == null || listaResenias.isEmpty()) {
+			System.out.println("La lista de resenias sin aprobar esta vacia.");
+		} else {
+			for (Resenia r:listaResenias) {
+				System.out.println(r.getId() + " - "+ r.getIdPelicula() + " - "+ r.getIdUsuario() + "\n");
+			}
+			// Se solicita la reseña a aprobar y se verifica su existencia
+			validacion=false;
+			do {
+				System.out.println("Ingrese el numero de la resenia a aprobar:");
+				num = in.nextInt();
+				if (fabrica.existeResenia(num))
+					validacion=true;	
+				else System.out.println("Error. ID de resenia incorrecto.");
+			} while(!validacion);
+			// Se muestra la reseña y se solicita aprobacion o desaprobacion
+			Resenia r = fabrica.descargarResenia(num);
+			System.out.println("Desea aprobar la siguiente reseña?:");
+			System.out.println(r.toString());
+			System.out.println("(Ingresar true/false)");
+			if (in.nextBoolean()) {
+				// Guardar en Base de Datos (aprobada)
+				fabrica.actualizarReseniaAprobada(num);
+				System.out.println("La resenia fue aprobada con exito.");
+			} else { // Borrar de Base de Datos (desaprobada)
+				fabrica.borrarResenia(r);
+				System.out.println("La resenia fue desaprobada con exito.");
+			}
+			in.close();
+		}		
 	}
-
 	
 	public void listarUsuarios() {
 		Scanner scanner = new Scanner(System.in);
