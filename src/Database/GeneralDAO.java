@@ -75,23 +75,23 @@ public class GeneralDAO {
         return listaPeliculas;
     }
 
-	public boolean validarDNI(int dni) {
-		if (dp.existeDNI()) return true;
+	public boolean validarDNI(int dni) throws SQLException {
+		if (dp.existeDNI(dni)) return true;
 		return false;
 	}
 
-	public void guardarDatosPersonales(DatosPersonales nuevosDatos) {
+	public void guardarDatosPersonales(DatosPersonales nuevosDatos) throws SQLException {
 		dp.cargarDatos(nuevosDatos);		
 	}
 	
 	
-	public ArrayList<DatosPersonales> listarDatosPersonales() {
+	public ArrayList<DatosPersonales> listarDatosPersonales() throws SQLException {
 		ArrayList<DatosPersonales> lista=dp.listar();
 		return lista;
 	}
 	
 	//retorna true si existe
-	public boolean existePersona(int idPersona) {
+	public boolean existePersona(int idPersona) throws SQLException {
 		if(dp.validarPersona(idPersona)) return true;
 		return false;
 	}
@@ -106,22 +106,22 @@ public class GeneralDAO {
 		return (pelicula.validarPelicula(ID));
 	}
 
-	public void guardarResenia(Resenia r) {
+	public void guardarResenia(Resenia r) throws SQLException {
 		r.setFechaHora(LocalDateTime.now());
 		resenia.cargarResenia(r);
 		
 	}
 	
-	public ArrayList<Resenia> listarReseniasNoAprobadas() {
+	public ArrayList<Resenia> listarReseniasNoAprobadas() throws SQLException {
 		ArrayList<Resenia> lista=resenia.listarNoAprobadas();
 		return lista;
 	}
 	
-	public boolean existeResenia(int ID) {
+	public boolean existeResenia(int ID) throws SQLException {
 		return (resenia.validarResenia(ID));
 	}
 	
-	public Resenia descargarResenia(int ID) {
+	public Resenia descargarResenia(int ID) throws SQLException {
 		return (resenia.descargarResenia(ID));
 	}
 	
@@ -130,7 +130,7 @@ public class GeneralDAO {
 	}
 
 	
-	public void borrarResenia(Resenia r) {
+	public void borrarResenia(Resenia r) throws SQLException {
 		resenia.eliminarResenia(r);
 	}
 	

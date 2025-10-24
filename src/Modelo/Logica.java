@@ -19,7 +19,7 @@ public class Logica {
 		fabrica.desconectar();
 	}
 	
-	public void registrarDatosPersonales() {
+	public void registrarDatosPersonales() throws SQLException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
         DatosPersonales nuevosDatos = new DatosPersonales(); 
@@ -437,7 +437,7 @@ public class Logica {
 		in.close();
 	}
 	
-	public void aprobarResenia() {
+	public void aprobarResenia() throws SQLException {
 		Scanner in = new Scanner(System.in);
 		int num;
 		boolean validacion;

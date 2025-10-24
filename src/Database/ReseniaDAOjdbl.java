@@ -130,5 +130,12 @@ public class ReseniaDAOjdbl implements ReseniaDAO {
 	    pstmt.close();   	
 		
     }
+	
+	//dado un id, cambiar el estado de aprobado a true
+	@Override
+	public void aprobarResenia(int iD) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
