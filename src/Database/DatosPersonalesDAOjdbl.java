@@ -1,43 +1,95 @@
 package Database;
 
-import java.sql.Connection;
-import java.util.ArrayList;
+import java.sql.*;
+import java.util.*;
 
 import Modelo.DatosPersonales;
 
 public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
-	private Connection conn;
+	private Connection connection;
 
-	public DatosPersonalesDAOjdbl(Connection connection) {
-		conn=connection;
-	}
-
-	//retorna true si ya existe el dni
-	@Override
-	public boolean existeDNI() {
-		//escribir codigo
-		return true;
-	}
-	
-	//carga datos personales
-	@Override
-	public void cargarDatos(DatosPersonales nuevosDatos) {
-		//escribir codigo
-		
-	}
-	
-	//ordenado por id
-	@Override
-	public ArrayList<DatosPersonales> listar() {
-		//escribir codigo
-		return null;
-	}
-	
-	//retorna true si existe la persona, busca en base al id
-	@Override
-	public boolean validarPersona(int ID) {
-		//escribir codigo
-		return false;
+	public DatosPersonalesDAOjdbl(Connection conn) {
+		connection=conn;
 	}
 
+	@Override
+	public boolean existeDNI(int dni) throws SQLException {
+		String sql= "SELECT COUNT(*) FROM DATOS_PERSONALES WHERE DNI=?;";
+		PreparedStatement pstmt;
+    	pstmt = connection.prepareStatement(sql);
+    	boolean existe=false;
+	    System.out.println("Ingrese un nombre de usuario:");     
+  		pstmt.setInt(1,dni);
+        ResultSet rs=pstmt.executeQuery();
+        int cant=rs.getInt(1);
+        rs.close();
+        if(cant>0) existe=true;
+        pstmt.close();
+		return existe;
+	}
+
+	@Override
+	public void cargarDatos(DatosPersonales nuevosDatos) throws SQLException {
+			Statement stmt = connection.createStatement();
+	        String sql = "INSERT INTO DATOS_PERSONALES (NOMBRES, APELLIDO, DNI)" +
+	                     "VALUES ('" + nuevosDatos.getNombre()+ "', " +
+	                             "'" + nuevosDatos.getApellido() + "', " + 
+	                             "'" + nuevosDatos.getDni() + 
+	                             ");";
+	        
+	        stmt.executeUpdate(sql);
+	        stmt.close();		
+		}
+
+	@Override
+	public ArrayList<DatosPersonales> listar() throws SQLException {
+		Statement stmt = connection.createStatement();
+		ArrayList<DatosPersonales> listaPersonas= new ArrayList<DatosPersonales>();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM persona");
+
+		while (rs.next()) {
+		    int id = rs.getInt("ID");
+		    String nombre = rs.getString("NOMBRES");
+		    String apellido = rs.getString("APELLIDO");
+		    int dni = rs.getInt("DNI");
+		    DatosPersonales datos = new DatosPersonales(id, nombre, apellido, dni);
+		    
+		    listaPersonas.add(datos);
+		}
+		return listaPersonas;
+	}
+	
+	//retorna true si existe la persona ya
+	@Override
+	public boolean validarPersona(int id) throws SQLException{
+		String sql= "SELECT COUNT(*) FROM DATOS_PERSONALES WHERE DNI=?;";
+		PreparedStatement pstmt;
+    	pstmt = connection.prepareStatement(sql);
+    	boolean existe=false;
+	    System.out.println("Ingrese un nombre de usuario:");     
+  		pstmt.setInt(1,id);
+        ResultSet rs=pstmt.executeQuery();
+        int cant=rs.getInt(1);
+        rs.close();
+        if(cant>0) existe=true;
+        pstmt.close();
+		return existe;
+	}
+	
+	public DatosPersonales buscarPorID(int id) throws SQLException {
+		Statement stmt = connection.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM DATOS_PERSONALES");
+		DatosPersonales datos = new DatosPersonales();
+		while (rs.next()) {
+			int aux=rs.getInt("ID");
+			if(aux==id) {
+			  String nombre = rs.getString("NOMBRES");
+		          String apellido = rs.getString("APELLIDO");
+		          int dni = rs.getInt("DNI");
+		   
+		    datos = new DatosPersonales(id, nombre, apellido, dni);
+			}
+		}
+		return datos;
+	}
 }

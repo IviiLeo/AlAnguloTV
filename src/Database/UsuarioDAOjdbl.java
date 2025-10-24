@@ -44,7 +44,7 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 		      String p = rs.getString("PAIS");
 		    
 		    Pais pais = Pais.valueOf(p);
-		    usuario = new Usuario(nombreUsuario,contrasenia, email, id, id_datos, pais);
+		    usuario = new Usuario(nombreUsuario,contrasenia, email, id, id_datos);
 			}
 		}
 		return usuario;
@@ -94,7 +94,7 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 		    String p = rs.getString("PAIS");
 		      
 		    Pais pais = Pais.valueOf(p);
-		    Usuario datos = new Usuario(nombreUsuario,contrasenia, email, id, id_datos, pais);
+		    Usuario datos = new Usuario(nombreUsuario,contrasenia, email, id, id_datos);
 		    
 		    listaUsuarios.add(datos);
 		}

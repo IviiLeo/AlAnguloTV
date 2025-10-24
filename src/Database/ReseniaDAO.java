@@ -1,23 +1,23 @@
 package Database;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Modelo.Resenia;
 
 public interface ReseniaDAO {
 
-	void cargarResenia(Resenia r);
+	void cargarResenia(Resenia r) throws SQLException;
 	
-	public Resenia descargarResenia(int ID);
+	public Resenia descargarResenia(int ID) throws SQLException;
 
-	public ArrayList<Resenia> listarNoAprobadas();
+	public ArrayList<Resenia> listarNoAprobadas() throws SQLException;
 		
-	public ArrayList<Resenia> listarAprobadas();
+	public ArrayList<Resenia> listarAprobadas() throws SQLException;
 
-	public boolean validarResenia(int ID);
+	public boolean validarResenia(int ID) throws SQLException;
 		
-	public void eliminarResenia(Resenia r);
-	
-	public void aprobarResenia(int ID);
+	public void eliminarResenia(Resenia r) throws SQLException;
+
 
 }

@@ -1,17 +1,18 @@
 package Database;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Modelo.DatosPersonales;
 
 public interface DatosPersonalesDAO {
 	//retorno true si existe
-	boolean existeDNI();
+	boolean existeDNI(int dni) throws SQLException;
 
-	void cargarDatos(DatosPersonales nuevosDatos);
+	void cargarDatos(DatosPersonales nuevosDatos) throws SQLException;
 
-	ArrayList<DatosPersonales> listar();
+	ArrayList<DatosPersonales> listar() throws SQLException;
 
-	boolean validarPersona(int idPersona);
+	boolean validarPersona(int id) throws SQLException;
 
 }
