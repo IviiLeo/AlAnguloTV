@@ -131,9 +131,16 @@ public class ReseniaDAOjdbl implements ReseniaDAO {
 	
 	//dado un id, cambiar el estado de aprobado a true
 	@Override
-	public void aprobarResenia(int iD) {
-		// TODO Auto-generated method stub
+	public void aprobarResenia(int ID) throws SQLException{
+        PreparedStatement pstmt;
+   
+		String sql = "UPDATE RESENIA SET APROBADO= ? WHERE ID=?;";
+		pstmt = connection.prepareStatement(sql);
+		pstmt.setBoolean(1,true);
+		pstmt.setInt(2,ID);
+		pstmt.executeUpdate();   
+	    pstmt.close();   	
 		
-	}
+    }
 }
 

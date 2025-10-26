@@ -19,7 +19,7 @@ public interface ReseniaDAO {
 		
 	public void eliminarResenia(Resenia r) throws SQLException;
 
-	void aprobarResenia(int iD);
+	void aprobarResenia(int iD) throws SQLException;
 
 
 }
