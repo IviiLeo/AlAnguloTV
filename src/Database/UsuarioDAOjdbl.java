@@ -46,7 +46,7 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 			  int dni = rs.getInt("DATOS_PERSONALES.DNI");
 				
 		      DatosPersonales persona=new DatosPersonales(id_datos,nombre, apellido, dni);
-	->>		  Usuario datos = new Usuario(nombreUsuario,contrasenia, email, id, persona);
+			  usuario = new Usuario(nombreUsuario,contrasenia, email, id, persona);
 			}
 		}
 		return usuario;
