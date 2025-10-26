@@ -14,5 +14,7 @@ public interface DatosPersonalesDAO {
 	ArrayList<DatosPersonales> listar() throws SQLException;
 
 	boolean validarPersona(int id) throws SQLException;
+	
+	public DatosPersonales buscarPorID(int id) throws SQLException;
 
 }

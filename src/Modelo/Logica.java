@@ -489,7 +489,6 @@ public class Logica {
             System.out.println("\n LISTADO DE USUARIOS:");
             for (Usuario u : listaUsuarios) {
                 System.out.println(u.toString()); 
-                // Faltaria imprimir los datos personales
             }
         } else
             System.out.println("No se encontraron usuarios para listar.");

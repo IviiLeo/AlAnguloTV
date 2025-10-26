@@ -17,8 +17,7 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
 		String sql= "SELECT COUNT(*) FROM DATOS_PERSONALES WHERE DNI=?;";
 		PreparedStatement pstmt;
     	pstmt = connection.prepareStatement(sql);
-    	boolean existe=false;
-	    System.out.println("Ingrese un nombre de usuario:");     
+    	boolean existe=false;    
   		pstmt.setInt(1,dni);
         ResultSet rs=pstmt.executeQuery();
         int cant=rs.getInt(1);
@@ -30,22 +29,22 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
 
 	@Override
 	public void cargarDatos(DatosPersonales nuevosDatos) throws SQLException {
-			Statement stmt = connection.createStatement();
-	        String sql = "INSERT INTO DATOS_PERSONALES (NOMBRES, APELLIDO, DNI)" +
-	                     "VALUES ('" + nuevosDatos.getNombre()+ "', " +
-	                             "'" + nuevosDatos.getApellido() + "', " + 
-	                             "'" + nuevosDatos.getDni() + 
-	                             ");";
-	        
-	        stmt.executeUpdate(sql);
-	        stmt.close();		
-		}
+		Statement stmt = connection.createStatement();
+        String sql = "INSERT INTO DATOS_PERSONALES (NOMBRES, APELLIDO, DNI)" +
+                     "VALUES ('" + nuevosDatos.getNombre()+ "', " +
+                             "'" + nuevosDatos.getApellido() + "', " + 
+                             "'" + nuevosDatos.getDni() + 
+                             ");";
+        
+        stmt.executeUpdate(sql);
+        stmt.close();		
+	}
 
 	@Override
 	public ArrayList<DatosPersonales> listar() throws SQLException {
 		Statement stmt = connection.createStatement();
 		ArrayList<DatosPersonales> listaPersonas= new ArrayList<DatosPersonales>();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM persona");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM DATOS_PERSONALES");
 
 		while (rs.next()) {
 		    int id = rs.getInt("ID");
@@ -62,11 +61,10 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
 	//retorna true si existe la persona ya
 	@Override
 	public boolean validarPersona(int id) throws SQLException{
-		String sql= "SELECT COUNT(*) FROM DATOS_PERSONALES WHERE DNI=?;";
+		String sql= "SELECT COUNT(*) FROM DATOS_PERSONALES WHERE ID=?;";
 		PreparedStatement pstmt;
     	pstmt = connection.prepareStatement(sql);
-    	boolean existe=false;
-	    System.out.println("Ingrese un nombre de usuario:");     
+    	boolean existe=false;   
   		pstmt.setInt(1,id);
         ResultSet rs=pstmt.executeQuery();
         int cant=rs.getInt(1);
@@ -79,13 +77,13 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
 	public DatosPersonales buscarPorID(int id) throws SQLException {
 		Statement stmt = connection.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM DATOS_PERSONALES");
-		DatosPersonales datos = new DatosPersonales();
+		DatosPersonales datos = null;
 		while (rs.next()) {
 			int aux=rs.getInt("ID");
 			if(aux==id) {
 			  String nombre = rs.getString("NOMBRES");
-		          String apellido = rs.getString("APELLIDO");
-		          int dni = rs.getInt("DNI");
+		      String apellido = rs.getString("APELLIDO");
+		      int dni = rs.getInt("DNI");
 		   
 		    datos = new DatosPersonales(id, nombre, apellido, dni);
 			}

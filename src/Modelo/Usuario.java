@@ -6,22 +6,23 @@ public class Usuario {
     private String contrasenia;
     private String email;
     private int idUsuario;        
-    private int idDatosPersonales;         
+    private DatosPersonales datosP;         
 
     public Usuario() {
         this.nombreUsuario = "sin_nombre";
         this.contrasenia = "sin_clave";
         this.email = "sin_email";
         this.idUsuario = 0;
-        this.idDatosPersonales = 0;
+        this.datosP = new DatosPersonales();
     }
 
-    public Usuario(String nombreUsuario, String contrasenia, String email, int idUsuario, int idDatosPersonales) {
+    public Usuario(String nombreUsuario, String contrasenia, String email, int idUsuario, DatosPersonales
+    		datosPersonales) {
         this.nombreUsuario = nombreUsuario;
         this.contrasenia = contrasenia;
         this.email = email;
         this.idUsuario = idUsuario;
-        this.idDatosPersonales = idDatosPersonales;
+        this.datosP = datosPersonales;
     }
 
     public String getNombreUsuario() {
@@ -40,8 +41,8 @@ public class Usuario {
         return idUsuario;
     }
 
-    public int getIdDatosPersonales() {
-        return idDatosPersonales;
+    public DatosPersonales getDatosPersonales() {
+        return datosP;
     }
 
     public void setNombreUsuario(String nombreUsuario) {
@@ -60,14 +61,15 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public void setIdDatosPersonales(int idDatosPersonales) {
-        this.idDatosPersonales = idDatosPersonales;
+    public void setDatosPersonales(DatosPersonales datosPersonales) {
+        this.datosP = datosPersonales;
     }
-    
+   
     // Opcional: Método toString
     @Override
     public String toString() {
-        return "Usuario [ID=" + idUsuario + ", User='" + nombreUsuario + "', Email='" + email + ", ID_DatosPers=" + idDatosPersonales + "]";
+        return "Usuario [ID=" + idUsuario + ", User='" + nombreUsuario + "', Email='" + email+ ", "+ datosP.toString() + "]";
     }
 }
+
 

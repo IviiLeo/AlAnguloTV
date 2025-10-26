@@ -20,7 +20,7 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 	                     "VALUES ('" + u.getNombreUsuario() + "', " +
 	                             "'" + u.getContrasenia() + "', " + 
 	                             "'" + u.getEmail() + "', " + 
-	                                   u.getIdDatosPersonales() +  
+	                             u.getDatosPersonales().getId() +  
 	                             ");";
 	        
 	        stmt.executeUpdate(sql);
@@ -30,9 +30,10 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 	
 	//retorno los datos completos del usuario, si el nombre de usuario no existe retorna null;
 	public Usuario buscarPorNombreUsuario(String user) throws SQLException {
-		Statement stmt = connection.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO");
-		Usuario usuario = new Usuario();
+		Statement stmt = connection.createStatement();		    
+		ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO INNER JOIN DATOS_PERSONALES WHERE ID_DATOSPERSONALES=ID");
+		Usuario usuario = null;
+		
 		while (rs.next()) {
 			String nombreUsuario=rs.getString("NOMBRE_USUARIO");
 			if(nombreUsuario.equals(user)) {
@@ -40,12 +41,17 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 		      String contrasenia = rs.getString("CONTRASENIA");
 		      String email = rs.getString("EMAIL");
 		      int id_datos = rs.getInt("ID_DATOS_PERSONALES");
-		      
-		    usuario = new Usuario(nombreUsuario,contrasenia, email, id, id_datos);
+			  String nombre=rs.getString("DATOS_PERSONALES.NOMBRES");
+		      String apellido = rs.getString("DATOS_PERSONALES.APELLIDO");
+			  int dni = rs.getInt("DATOS_PERSONALES.DNI");
+				
+		      DatosPersonales persona=new DatosPersonales(id_datos,nombre, apellido, dni);
+	->>		  Usuario datos = new Usuario(nombreUsuario,contrasenia, email, id, persona);
 			}
 		}
 		return usuario;
 	}
+
 	
 	//retorna true si existe
 	public boolean verificarNomUsuario(String u) throws SQLException{
@@ -99,6 +105,7 @@ public class UsuarioDAOjdbl implements UsuarioDAO{
 		}
 		return listaUsuarios;
 	}
+
 	
 }
 

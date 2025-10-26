@@ -28,31 +28,30 @@ public class ReseniaDAOjdbl implements ReseniaDAO {
                              ");";
         
         stmt.executeUpdate(sql);
-        stmt.close();	
-		
-}
+        stmt.close();			
+	}
 	
 	public Resenia descargarResenia(int ID) throws SQLException {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM RESENIA");
-			Resenia datos = new Resenia();
-	
-			while (rs.next()) {
-				int aux=rs.getInt("ID");
-				if(aux==ID) {
-				  int calificacion = rs.getInt("CALIFICACION");
-			      String comentario = rs.getString("COMENTARIO");
-			      boolean aprobado= rs.getBoolean("APROBADO");
-			      String fechaString=rs.getString("FECHA_HORA");
-			      LocalDateTime fechaHora = LocalDateTime.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-			      int idUsuario = rs.getInt("ID_USUARIO");
-			      int idPelicula = rs.getInt("ID_PELICULA");
-			   
-			    datos = new Resenia(aux,calificacion, comentario, aprobado, fechaHora, idUsuario, idPelicula);
-				}
+		Statement stmt = connection.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM RESENIA");
+		Resenia datos = null;
+
+		while (rs.next()) {
+			int aux=rs.getInt("ID");
+			if(aux==ID) {
+			  int calificacion = rs.getInt("CALIFICACION");
+		      String comentario = rs.getString("COMENTARIO");
+		      boolean aprobado= rs.getBoolean("APROBADO");
+		      String fechaString=rs.getString("FECHA_HORA");
+		      LocalDateTime fechaHora = LocalDateTime.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		      int idUsuario = rs.getInt("ID_USUARIO");
+		      int idPelicula = rs.getInt("ID_PELICULA");
+		   
+		    datos = new Resenia(aux,calificacion, comentario, aprobado, fechaHora, idUsuario, idPelicula);
 			}
-			return datos;
 		}
+		return datos;
+	}
 		
 	@Override
 	public ArrayList<Resenia> listarNoAprobadas() throws SQLException{
@@ -81,44 +80,44 @@ public class ReseniaDAOjdbl implements ReseniaDAO {
 	
 	@Override
 	public ArrayList<Resenia> listarAprobadas() throws SQLException{
-			Statement stmt = connection.createStatement();
-			ArrayList<Resenia> listaResenias= new ArrayList<Resenia>();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM RESENIA");
-			
-			while (rs.next()) {
-				boolean aprobado= rs.getBoolean("APROBADO");
-				if(aprobado) {
-			      int id = rs.getInt("ID");
-			      int calificacion = rs.getInt("CALIFICACION");
-	     		  String comentario = rs.getString("COMENTARIO");
-			      String fechaString=rs.getString("FECHA_HORA");
-			      LocalDateTime fechaHora = LocalDateTime.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-			      int idUsuario = rs.getInt("ID_USUARIO");
-			      int idPelicula = rs.getInt("ID_PELICULA");
-			      
-			      Resenia datos = new Resenia(id, calificacion, comentario, aprobado, fechaHora, idUsuario, idPelicula);
-			    
-			    listaResenias.add(datos);
-			    }
-			}
-			return listaResenias;
+		Statement stmt = connection.createStatement();
+		ArrayList<Resenia> listaResenias= new ArrayList<Resenia>();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM RESENIA");
+		
+		while (rs.next()) {
+			boolean aprobado= rs.getBoolean("APROBADO");
+			if(aprobado) {
+		      int id = rs.getInt("ID");
+		      int calificacion = rs.getInt("CALIFICACION");
+     		  String comentario = rs.getString("COMENTARIO");
+		      String fechaString=rs.getString("FECHA_HORA");
+		      LocalDateTime fechaHora = LocalDateTime.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		      int idUsuario = rs.getInt("ID_USUARIO");
+		      int idPelicula = rs.getInt("ID_PELICULA");
+		      
+		      Resenia datos = new Resenia(id, calificacion, comentario, aprobado, fechaHora, idUsuario, idPelicula);
+		    
+		    listaResenias.add(datos);
+		    }
 		}
+		return listaResenias;
+	}
 	
 	//retorna true si existe
 	@Override
 	public boolean validarResenia(int ID) throws SQLException {
-			String sql= "SELECT COUNT(*) FROM RESENIA WHERE ID=?;";
-			PreparedStatement pstmt;
-	    	pstmt = connection.prepareStatement(sql);
-	    	boolean existe=false;   
-	  		pstmt.setInt(1,ID);
-	        ResultSet rs=pstmt.executeQuery();
-	        int cant=rs.getInt(1);
-	        rs.close();
-	        if(cant>0) existe=true;
-	        pstmt.close();
-			return existe;
-		}
+		String sql= "SELECT COUNT(*) FROM RESENIA WHERE ID=?;";
+		PreparedStatement pstmt;
+    	pstmt = connection.prepareStatement(sql);
+    	boolean existe=false;   
+  		pstmt.setInt(1,ID);
+        ResultSet rs=pstmt.executeQuery();
+        int cant=rs.getInt(1);
+        rs.close();
+        if(cant>0) existe=true;
+        pstmt.close();
+		return existe;
+	}
 
 	public void eliminarResenia(Resenia r) throws SQLException{
         PreparedStatement pstmt;
@@ -127,8 +126,7 @@ public class ReseniaDAOjdbl implements ReseniaDAO {
 		pstmt = connection.prepareStatement(sql);
 		pstmt.setInt(1,r.getId());
 		pstmt.executeUpdate();   
-	    pstmt.close();   	
-		
+	    pstmt.close();   			
     }
 	
 	//dado un id, cambiar el estado de aprobado a true
