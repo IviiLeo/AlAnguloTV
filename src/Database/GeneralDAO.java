@@ -125,7 +125,7 @@ public class GeneralDAO {
 		return (resenia.descargarResenia(ID));
 	}
 	
-	public void actualizarReseniaAprobada(int ID) {
+	public void actualizarReseniaAprobada(int ID) throws SQLException {
 		resenia.aprobarResenia(ID);
 	}
 
