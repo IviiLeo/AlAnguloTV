@@ -103,6 +103,7 @@ public class Logica {
 
             if (confirmacion.equals("S")) {
                 fabrica.guardarDatosPersonales(nuevosDatos);
+                System.out.println("Guardado con exito.");
             } else {
                 System.out.println("Guardado cancelado. Los datos no se almacenaron.");
             }
