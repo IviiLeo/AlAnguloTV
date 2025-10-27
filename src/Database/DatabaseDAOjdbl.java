@@ -1,6 +1,4 @@
 package Database;
-import java.io.File;
-import java.sql.*;
 
 import java.io.File;
 import java.sql.*;
