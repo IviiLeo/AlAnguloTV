@@ -15,6 +15,6 @@ public interface UsuarioDAO {
 	public boolean verificarMail(String m)throws SQLException;
 	
 	public ArrayList<Usuario> listarUsuarios() throws SQLException;
-		
+	public Usuario buscarPorID(int ID) throws SQLException;
 			
 }

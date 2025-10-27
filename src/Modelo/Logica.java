@@ -8,8 +8,10 @@ import Database.*;
 
 public class Logica {
 	private GeneralDAO fabrica;
+	private Scanner scanner;
 	public Logica() {
 		fabrica=new GeneralDAO();
+		scanner = new Scanner(System.in);
 	}
 	
 	public void conectar() throws SQLException {
@@ -20,8 +22,6 @@ public class Logica {
 	}
 	
 	public void registrarDatosPersonales() throws SQLException {
-		@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(System.in);
         DatosPersonales nuevosDatos = new DatosPersonales(); 
         boolean datosCompletos = false;
             
@@ -78,7 +78,7 @@ public class Logica {
                         dni = Integer.parseInt(inputDni);
                         
                         // Uso del método de la fábrica para validación de unicidad
-                        if (fabrica.validarDNI(dni)) {
+                        if (!fabrica.validarDNI(dni)) {
                             dniValido = true;
                         } else {
                             System.out.println("Error: El DNI " + dni + " ya se encuentra registrado. Intente con otro.");
@@ -113,32 +113,26 @@ public class Logica {
 		ArrayList<DatosPersonales> listaDatosPersonales = fabrica.listarDatosPersonales();
 		if (listaDatosPersonales == null || listaDatosPersonales.isEmpty()) {
 			System.out.print("La lista de datos personales se encuentra vacia");
-		} else {
-			@SuppressWarnings("resource")
-			Scanner scanner = new Scanner(System.in);       
+		} else {    
 	        Usuario nuevoUsuario = new Usuario(); 
-
 	        System.out.println("\nREGISTRO DE NUEVO USUARIO");       
-	        boolean idValido = false;
-
-	        while (!idValido) {
-                System.out.println("\nDATOS PERSONALES EXISTENTES");
-                System.out.println("ID\t| Nombre\t| Apellido\t| DNI\n");
-                 
-                // Imprimir lista
-                for (DatosPersonales dp : listaDatosPersonales) {
-                    System.out.printf(dp.getId()+" | "+ dp.getNombre()+" | "+ dp.getApellido()+" | "+ dp.getDni());
-                }
-
-                int idPersona;
-                do {
-                	System.out.print("Seleccione el ID Personal a asociar: ");
-	                idPersona=scanner.nextInt();
-                } while (!fabrica.existePersona(idPersona));
-            }    
-	            
+            System.out.println("\nDATOS PERSONALES EXISTENTES");
+            System.out.println("ID\t| Nombre\t| Apellido\t| DNI"); 
+            // Imprimir lista
+            for (DatosPersonales dp : listaDatosPersonales) {
+            	System.out.println(dp.getId()+"\t| "+ dp.getNombre()+"\t| "+ dp.getApellido()+"\t| "+ dp.getDni());
+            }
+            int idPersona;
+            boolean existe = false;
+            do {
+            	System.out.print("Seleccione el ID Personal a asociar: ");
+            	idPersona=scanner.nextInt();
+            	scanner.nextLine();
+            	existe = fabrica.existePersona(idPersona);
+            } while(!existe);
+            nuevoUsuario.setDatosPersonales(fabrica.buscarDpPorId(idPersona));
+	        System.out.println("Su usuario fue asociado correctamente.");
 	      //Ingreso de datos de usuario
-            
             // A. Nombre de Usuario (Obligatorio)
             String nombreUsuario;
             do {
@@ -195,20 +189,16 @@ public class Logica {
 
             if (confirmacion.equals("S")) {
                 fabrica.guardarUsuario(nuevoUsuario);
-                System.out.print("Datos guardados con exito.");
+                System.out.println("Datos guardados con exito.");
             } else {
                 System.out.println("Datos no guardados.");
             }    	
 		}		 
 }
 	
-	public void registrarPelicula() throws SQLException {
-		    Scanner scanner = new Scanner(System.in);
-		    
+	public void registrarPelicula() throws SQLException {	    
 		    System.out.println("REGISTRAR NUEVA PELÍCULA");
-
 			Pelicula nuevaPelicula = new Pelicula(); 
-
 			// 1. Título (Obligatorio)
 			String titulo;
 	        do {
@@ -309,15 +299,11 @@ public class Logica {
 			if (resumen.isEmpty()) {
 			     resumen = "Sin resumen disponible.";
 			}
-			scanner.close();
 			nuevaPelicula.setResumen(resumen);
-			
 			fabrica.guardarPelicula(nuevaPelicula);
 	}
 	
-	public void listarPeliculas() throws SQLException {
-		Scanner scanner = new Scanner(System.in);
-        
+	public void listarPeliculas() throws SQLException {  
 		ArrayList<Pelicula> listaPeliculas = null;
         boolean opcionValida = false;
         int opcion=0;
@@ -337,11 +323,9 @@ public class Logica {
             	System.out.print("Error: criterio de ordenacion invalido, por favor ingrese otro: ");
             	criterio = scanner.nextLine().trim();
                 opcion = Integer.parseInt(criterio);
-            }
+            } else opcionValida = true;
         }
         listaPeliculas=fabrica.listarPeliculas(opcion);        
-        
-        scanner.close();
 
         // Una vez que se obtiene la lista, se imprime
         if (listaPeliculas != null && !listaPeliculas.isEmpty()) {
@@ -364,7 +348,6 @@ public class Logica {
 		if (listaUsuarios.isEmpty() || listaUsuarios == null) {
 			System.out.print("La lista de usuarios se encuentra vacia.");
 		} else {
-			Scanner in = new Scanner(System.in);
 			String user, comentario;
 			int num, puntaje;
 			Resenia nuevaResenia=new Resenia();
@@ -373,13 +356,13 @@ public class Logica {
 			// Se valida el usuario
 			do {
 				System.out.print("Ingresa el nombre de usuario: ");
-				user = in.next();
+				user = scanner.nextLine();
 				u=fabrica.buscarUsuarioPorNombre(user);
 				if(u==null) {
 					System.out.println("El nombre de usuario es incorrecto.\n");
 				} else {
 					System.out.print("Ingresa la contrasena: ");
-					String contrasenia=in.nextLine().trim();
+					String contrasenia=scanner.nextLine().trim();
 					if(u.getContrasenia().equals(contrasenia)) {
 						validacion=true;
 					} else System.out.println("Error: contrasena incorrecta");					
@@ -397,78 +380,82 @@ public class Logica {
 			validacion=false;
 			do {
 				System.out.print("Ingrese el ID de la pelicula a la que quiere agregarle una resenia: ");
-				num = in.nextInt();
+				num = scanner.nextInt();
+				scanner.nextLine();
 				if(fabrica.existePelicula(num)) {
 					validacion=true;
 				} else System.out.println("Error. Película no disponible.");
 			}while (!validacion);
 			nuevaResenia.setIdPelicula(num);
 			// Se ingresa calificacion de la reseña
-			System.out.println("\nIngresa una calificación para la pelicula (1..10):");
-			puntaje = in.nextInt();
+			System.out.print("\nIngresa una calificación para la pelicula (1..10):");
+			puntaje = scanner.nextInt();
+			scanner.nextLine();
 			while (puntaje < 1 || puntaje > 10){
 				System.out.println("Puntaje no valido. Ingresar nuevamente un valor entre 1 y 10");
-				puntaje = in.nextInt();
+				puntaje = scanner.nextInt();
 			}
 			nuevaResenia.setCalificacion(puntaje);
 			// Se ingresa comentario de la reseña
-			System.out.println("Ahora ingresar un comentario:");
-			comentario = in.nextLine();
+			System.out.print("Ahora ingresar un comentario:");
+			comentario = scanner.nextLine();
 			nuevaResenia.setComentario(comentario);
 			// Se muestra la reseña final y se solicita confirmacion
-			System.out.println("Desea publicar la siguiente reseña?:");
-			System.out.println(nuevaResenia.toStringSinID());
-			System.out.println("(Ingresar true/false)");
-			if (in.nextBoolean()) {
-				fabrica.guardarResenia(nuevaResenia);
-			}
-			in.close();
+			System.out.print("¿Desea publicar la siguiente reseña? (S/N): ");
+            String confirmacion = scanner.nextLine().trim().toUpperCase();
+            if (confirmacion.equals("S")) {
+                fabrica.guardarResenia(nuevaResenia);
+                System.out.println("Reseña guardada con éxito.");
+            } else {
+                System.out.println("La reseña no fue guardada.");
+            }    	
 		}	
 	}
 	
 	public void aprobarResenia() throws SQLException {
-		Scanner in = new Scanner(System.in);
 		int num;
 		boolean validacion;
+		Usuario user = null;
+		Pelicula p = null;
 		// Se muestran las reseñas pendientes de aprobación
 		System.out.println("Resenias sin aprobar:");
 		ArrayList<Resenia> listaResenias=fabrica.listarReseniasNoAprobadas();
 		System.out.println("Las siguientes resenias aguardan aprobacion");
-		System.out.println("Formato ID resenia - ID pelicula - ID usuario");
+		System.out.println("Formato:\nID\t| Titulo\t| Calificacion\t| Usuario");
 		if (listaResenias == null || listaResenias.isEmpty()) {
 			System.out.println("La lista de resenias sin aprobar esta vacia.");
 		} else {
 			for (Resenia r:listaResenias) {
-				System.out.println(r.getId() + " - "+ r.getIdPelicula() + " - "+ r.getIdUsuario() + "\n");
+				user = fabrica.buscarUserPorId(r.getIdUsuario());
+				p = fabrica.buscarPeliculaPorId(r.getIdPelicula());
+				System.out.println(r.getId() + "\t| "+ p.getTitulo() + "\t| "+ r.getCalificacion() + "\t\t| " + user.getNombreUsuario() +" \n");
 			}
 			// Se solicita la reseña a aprobar y se verifica su existencia
 			validacion=false;
 			do {
-				System.out.println("Ingrese el numero de la resenia a aprobar:");
-				num = in.nextInt();
+				System.out.print("Ingrese el numero de la resenia a aprobar:");
+				num = scanner.nextInt();
+				scanner.nextLine();
 				if (fabrica.existeResenia(num))
 					validacion=true;	
 				else System.out.println("Error. ID de resenia incorrecto.");
 			} while(!validacion);
 			// Se muestra la reseña y se solicita aprobacion o desaprobacion
 			Resenia r = fabrica.descargarResenia(num);
-			System.out.println("Desea aprobar la siguiente reseña?:");
+			System.out.println("Desea aprobar o eliminar la siguiente reseña? (A/E): ");
 			System.out.println(r.toString());
-			System.out.println("(Ingresar true/false)");
-			if (in.nextBoolean()) {
-				// Guardar en Base de Datos (aprobada)
-				fabrica.actualizarReseniaAprobada(num);
-				System.out.println("La resenia fue aprobada con exito.");
-			} else { // Borrar de Base de Datos (desaprobada)
-				fabrica.borrarResenia(r);
-				System.out.println("La resenia fue desaprobada con exito.");
+            String confirmacion = scanner.nextLine().trim().toUpperCase();
+            if (confirmacion.equals("A")) {
+                fabrica.actualizarReseniaAprobada(num);
+                System.out.println("La reseña fue aprobada con exito.");
+            } else {
+            	fabrica.borrarResenia(r);
+                System.out.println("La reseña fue eliminada.");  
 			}
-			in.close();
 		}		
 	}
 	
 	public void listarUsuarios() throws SQLException {
-		Scanner scanner = new Scanner(System.in);
 		ArrayList<Usuario> listaUsuarios = null;
 		// Se solicita un criterio de ordenación de usuarios
 		int opcion ;
@@ -476,15 +463,15 @@ public class Logica {
         System.out.println("Seleccione el criterio de ordenación:");
         System.out.println("1. Por nombre de usuario");
         System.out.println("2. Por email asociado");
-        System.out.println("Ingrese su opcion (1-2): ");
+        System.out.print("Ingrese su opcion (1-2): ");
         opcion = scanner.nextInt();
-        while (opcion != 1 && opcion !=2) {
+        scanner.nextLine();
+        while (opcion<1 || opcion>2) {
         	System.out.println("Error: criterio de ordenacion invalido");
         	opcion = scanner.nextInt();
         }
         // Se consigue la lista de usuarios segun el orden elegido y se muestra en pantalla
         listaUsuarios=fabrica.listarUsuarios(opcion);
-        scanner.close();
         if (listaUsuarios != null && !listaUsuarios.isEmpty()) {
             System.out.println("\n LISTADO DE USUARIOS:");
             for (Usuario u : listaUsuarios) {

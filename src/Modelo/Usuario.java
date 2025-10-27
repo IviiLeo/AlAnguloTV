@@ -12,7 +12,7 @@ public class Usuario {
         this.nombreUsuario = "sin_nombre";
         this.contrasenia = "sin_clave";
         this.email = "sin_email";
-        this.idUsuario = 0;
+        this.idUsuario = -1;
         this.datosP = new DatosPersonales();
     }
 

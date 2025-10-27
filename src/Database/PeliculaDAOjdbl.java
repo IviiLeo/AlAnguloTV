@@ -54,7 +54,7 @@ public class PeliculaDAOjdbl implements PeliculaDAO {
 	//devuleva si una pelicula existe, pasandole un ID como parametro. si existe retorna true, si no false
 	@Override
 	public boolean validarPelicula(int id) throws SQLException{
-			String sql= "SELECT COUNT(*) FROM PELICULAS WHERE ID=?;";
+			String sql= "SELECT COUNT(*) FROM PELICULA WHERE ID=?;";
 			PreparedStatement pstmt;
 	    	pstmt = connection.prepareStatement(sql);
 	    	boolean existe=false;  
@@ -66,6 +66,26 @@ public class PeliculaDAOjdbl implements PeliculaDAO {
 	        pstmt.close();
 			return existe;
 	}
+	
+	public Pelicula buscarPorID(int ID) throws SQLException {
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM PELICULA");
+        Pelicula pelicula = null;
+
+        while (rs.next()) {
+            int id=rs.getInt("ID");
+            if(id==ID) {
+              String g = rs.getString("GENERO");
+              String titulo = rs.getString("TITULO");
+              String resumen = rs.getString("RESUMEN");
+              String director = rs.getString("DIRECTOR");
+              double duracion = rs.getInt("DURACION");
+              GeneroPelicula genero = GeneroPelicula.valueOf(g);
+              pelicula = new Pelicula(id, genero, titulo, resumen, director, duracion);
+            }
+        }
+        return pelicula;
+    }
 
 }
 

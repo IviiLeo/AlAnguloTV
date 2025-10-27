@@ -11,5 +11,5 @@ public interface PeliculaDAO {
 	public ArrayList<Pelicula> listarPeliculas() throws SQLException;
 
 	public boolean validarPelicula(int id) throws SQLException;
-
+	public Pelicula buscarPorID(int ID) throws SQLException;
 }

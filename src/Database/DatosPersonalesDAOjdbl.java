@@ -30,11 +30,18 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
 	@Override
 	public void cargarDatos(DatosPersonales nuevosDatos) throws SQLException {
 		Statement stmt = connection.createStatement();
-        String sql = "INSERT INTO DATOS_PERSONALES (NOMBRES, APELLIDO, DNI)" +
+        /* String sql = "INSERT INTO DATOS_PERSONALES (NOMBRES, APELLIDO, DNI)" +
                      "VALUES ('" + nuevosDatos.getNombre()+ "', " +
                              "'" + nuevosDatos.getApellido() + "', " + 
                              "'" + nuevosDatos.getDni() + 
                              ");";
+                        */
+        String sql = "INSERT INTO DATOS_PERSONALES (NOMBRES, APELLIDO, DNI) VALUES (" +
+                "'" + nuevosDatos.getNombre() + "', " +
+                "'" + nuevosDatos.getApellido() + "', " +
+                "'" + nuevosDatos.getDni() + "'" +
+                ");";
+
         
         stmt.executeUpdate(sql);
         stmt.close();		
@@ -67,9 +74,11 @@ public class DatosPersonalesDAOjdbl implements DatosPersonalesDAO{
     	boolean existe=false;   
   		pstmt.setInt(1,id);
         ResultSet rs=pstmt.executeQuery();
-        int cant=rs.getInt(1);
+        if (rs.next()) {
+        	int cant=rs.getInt(1);
+        	if(cant>0) existe=true;
+        }
         rs.close();
-        if(cant>0) existe=true;
         pstmt.close();
 		return existe;
 	}

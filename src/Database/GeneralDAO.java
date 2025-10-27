@@ -94,8 +94,13 @@ public class GeneralDAO {
 	
 	//retorna true si existe
 	public boolean existePersona(int idPersona) throws SQLException {
-		if(dp.validarPersona(idPersona)) return true;
-		return false;
+		if (dp.validarPersona(idPersona))
+			return true;
+		else return false;
+	}
+	
+	public DatosPersonales buscarDpPorId(int idPersona) throws SQLException {
+		return dp.buscarPorID(idPersona);
 	}
 
 	public Usuario buscarUsuarioPorNombre(String nombreUsuario) throws SQLException {
@@ -151,6 +156,12 @@ public class GeneralDAO {
 		return listaUsuarios;
 	}
 
+	public Usuario buscarUserPorId(int Id) throws SQLException {
+		return user.buscarPorID(Id);
+	}
 
+	public Pelicula buscarPeliculaPorId(int Id) throws SQLException {
+		return pelicula.buscarPorID(Id);
+	}
 }
 	
