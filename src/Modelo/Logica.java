@@ -112,7 +112,7 @@ public class Logica {
 	public void registrarUsuario() throws SQLException {
 		ArrayList<DatosPersonales> listaDatosPersonales = fabrica.listarDatosPersonales();
 		if (listaDatosPersonales == null || listaDatosPersonales.isEmpty()) {
-			System.out.print("La lista de datos personales se encuentra vacia");
+			System.out.println("La lista de datos personales se encuentra vacia");
 		} else {    
 	        Usuario nuevoUsuario = new Usuario(); 
 	        System.out.println("\nREGISTRO DE NUEVO USUARIO");       
@@ -342,11 +342,11 @@ public class Logica {
 	public void registrarResenia() throws SQLException {
 		ArrayList<Pelicula> listaPeliculas=fabrica.listarPeliculas(4);	
 		if (listaPeliculas.isEmpty() || listaPeliculas==null)  {
-			System.out.print("La lista de peliculas disponibles se encuentra vacia.");
+			System.out.println("La lista de peliculas disponibles se encuentra vacia.");
 		}
 		ArrayList<Usuario> listaUsuarios=fabrica.listarUsuarios(1);
 		if (listaUsuarios.isEmpty() || listaUsuarios == null) {
-			System.out.print("La lista de usuarios se encuentra vacia.");
+			System.out.println("La lista de usuarios se encuentra vacia.");
 		} else {
 			String user, comentario;
 			int num, puntaje;
