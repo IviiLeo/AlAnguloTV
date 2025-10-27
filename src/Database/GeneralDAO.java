@@ -3,6 +3,8 @@ package Database;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import Comparator.*;
 
 import Modelo.*;
 
@@ -52,21 +54,21 @@ public class GeneralDAO {
 		pelicula.cargarPelicula(p);
 	}
 	
-	public ArrayList<Pelicula> listarPeliculas(int opcion) {
-		ArrayList<Pelicula> listaPeliculas = new ArrayList<>(); 
+	public ArrayList<Pelicula> listarPeliculas(int opcion) throws SQLException {
+		ArrayList<Pelicula> listaPeliculas = pelicula.listarPeliculas(); 
 
         switch (opcion) {
             case 1: 
-                //nombre
+                Collections.sort(listaPeliculas, new ComparatorTitulo());
                 break;
             case 2:
-                //genero
+            	Collections.sort(listaPeliculas, new ComparatorGenero());
                 break;
             case 3:
-                //duracion
+            	Collections.sort(listaPeliculas, new ComparatorDuracion());
                 break;
             case 4:
-            	//sin orden:ordenado por id
+            	// Imprime por el orden que se descargó de base de datos (ID)
                 break;
             default:
                 System.out.println("Opción de ordenación no válida.");
@@ -134,14 +136,14 @@ public class GeneralDAO {
 		resenia.eliminarResenia(r);
 	}
 	
-	public ArrayList<Usuario> listarUsuarios(int opcion){
-		ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+	public ArrayList<Usuario> listarUsuarios(int opcion) throws SQLException {
+		ArrayList<Usuario> listaUsuarios = user.listarUsuarios();
 		switch (opcion) {
 			case 1:
-				// nombre de usuario
+				Collections.sort(listaUsuarios, new ComparatorUserName());
 				break;
 			case 2:
-				// email
+				Collections.sort(listaUsuarios, new ComparatorMail());
 				break;
 			default:
 				System.out.println("Opción de ordenación no válida.");

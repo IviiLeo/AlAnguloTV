@@ -315,7 +315,7 @@ public class Logica {
 			fabrica.guardarPelicula(nuevaPelicula);
 	}
 	
-	public void listarPeliculas() {
+	public void listarPeliculas() throws SQLException {
 		Scanner scanner = new Scanner(System.in);
         
 		ArrayList<Pelicula> listaPeliculas = null;
@@ -467,7 +467,7 @@ public class Logica {
 		}		
 	}
 	
-	public void listarUsuarios() {
+	public void listarUsuarios() throws SQLException {
 		Scanner scanner = new Scanner(System.in);
 		ArrayList<Usuario> listaUsuarios = null;
 		// Se solicita un criterio de ordenación de usuarios
